@@ -4,12 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.Intent;
 import android.net.Uri;
-import android.util.Log;
 import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.spotifywrapped.presentation.sign_in.SpotifyAuthUiClient;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.spotify.sdk.android.auth.AuthorizationClient;
 import com.spotify.sdk.android.auth.AuthorizationRequest;
 import com.spotify.sdk.android.auth.AuthorizationResponse;
@@ -17,105 +15,53 @@ import com.spotify.sdk.android.auth.AuthorizationResponse;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 
 import okhttp3.Call;
-import okhttp3.Callback;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
     public static final String REDIRECT_URI = "spotifywrapped://auth";
     public static final String CLIENT_ID = "6d44e137f7e9408cad63277cd051a6d7";
     public static final int AUTH_TOKEN_REQUEST_CODE = 0;
-    public static final int AUTH_CODE_REQUEST_CODE = 1;
-
     private final OkHttpClient mOkHttpClient = new OkHttpClient();
-    private String mAccessToken, mAccessCode;
     private Call mCall;
-    private TextView tokenTextView, codeTextView, profileTextView;
+    private FirebaseStorage storage;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        tokenTextView = (TextView) findViewById(R.id.token_text_view);
-        codeTextView = (TextView) findViewById(R.id.code_text_view);
-        profileTextView = (TextView) findViewById(R.id.response_text_view);
-        Button tokenBtn = (Button) findViewById(R.id.token_btn);
-        Button codeBtn = (Button) findViewById(R.id.code_btn);
-        Button profileBtn = (Button) findViewById(R.id.profile_btn);
+        storage = FirebaseStorage.getInstance();
         Button loginBtn = (Button) findViewById(R.id.login_button);
-        tokenBtn.setOnClickListener((v) -> {
+        loginBtn.setOnClickListener((v) -> {
             getToken();
         });
-        codeBtn.setOnClickListener((v) -> {
-            getCode();
-        });
-        profileBtn.setOnClickListener((v) -> {
-            onGetUserProfileClicked();
-        });
-//        loginBtn.setOnClickListener((v) -> {
-//            new SpotifyAuthUiClient();
-//        });
     }
     public void getToken() {
         final AuthorizationRequest request = getAuthenticationRequest(AuthorizationResponse.Type.TOKEN);
         AuthorizationClient.openLoginActivity(MainActivity.this, AUTH_TOKEN_REQUEST_CODE, request);
     }
-    public void getCode() {
-        final AuthorizationRequest request = getAuthenticationRequest(AuthorizationResponse.Type.CODE);
-        AuthorizationClient.openLoginActivity(MainActivity.this, AUTH_CODE_REQUEST_CODE, request);
-    }
+
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)  {
         super.onActivityResult(requestCode, resultCode, data);
         final AuthorizationResponse response = AuthorizationClient.getResponse(resultCode, data);
-
-        if (AUTH_TOKEN_REQUEST_CODE == requestCode) {
-            mAccessToken = response.getAccessToken();
-            setTextAsync(mAccessToken, tokenTextView);
-
-        } else if (AUTH_CODE_REQUEST_CODE == requestCode) {
-            mAccessCode = response.getCode();
-            setTextAsync(mAccessCode, codeTextView);
-        }
-    }
-    public void onGetUserProfileClicked() {
-        if (mAccessToken == null) {
-            Toast.makeText(this, "You need to get an access token first!", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        final Request request = new Request.Builder()
-                .url("https://api.spotify.com/v1/me")
-                .addHeader("Authorization", "Bearer " + mAccessToken)
-                .build();
-        cancelCall();
-        mCall = mOkHttpClient.newCall(request);
-
-        mCall.enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Log.d("HTTP", "Failed to fetch data: " + e);
-                Toast.makeText(MainActivity.this, "Failed to fetch data, watch Logcat for more details",
-                        Toast.LENGTH_SHORT).show();
+        if (response.getAccessToken() != null) {
+            try {
+               uploadJson(response.getAccessToken());
+               if (TokenClass.getInstance().getFireAccessToken() != null) {
+                   Intent intent = new Intent(MainActivity.this, Home.class);
+                   startActivity(intent);
+               }
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
             }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                try {
-                    final JSONObject jsonObject = new JSONObject(response.body().string());
-                    setTextAsync(jsonObject.toString(3), profileTextView);
-                } catch (JSONException e) {
-                    Log.d("JSON", "Failed to parse data: " + e);
-                    Toast.makeText(MainActivity.this, "Failed to parse data, watch Logcat for more details",
-                            Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-    }
-    private void setTextAsync(final String text, TextView textView) {
-        runOnUiThread(() -> textView.setText(text));
+        }
     }
     private AuthorizationRequest getAuthenticationRequest(AuthorizationResponse.Type type) {
         return new AuthorizationRequest.Builder(CLIENT_ID, type, getRedirectUri().toString())
@@ -131,6 +77,64 @@ public class MainActivity extends AppCompatActivity {
     private void cancelCall() {
         if (mCall != null) {
             mCall.cancel();
+        }
+    }
+    public void uploadJson(String responseToken) throws JSONException {
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("Access token", responseToken);
+            String jsonString = jsonObject.toString();
+            byte[] data = jsonString.getBytes(StandardCharsets.UTF_8);
+            StorageReference jsonRef = storage.getReference().child("json/data.json");
+            jsonRef.putBytes(data)
+                    .addOnSuccessListener(taskSnapshot -> {
+                        // Handle success
+                        try {
+                            downloadToken(new DownloadCallback() {
+                                @Override
+                                public void successMethod(String theJsonString) {
+                                    TokenClass.getInstance().setFireAccessToken(theJsonString.substring(17, theJsonString.length()-2));
+                                    //fireAccessToken = TokenClass.getInstance().getFireAccessToken();
+                                    Intent intent = new Intent(MainActivity.this, Home.class);
+                                    startActivity(intent);
+                                }
+
+                                @Override
+                                public void failureMethod(Exception exception) {
+
+                                }
+                            });
+                        } catch (Exception e) {
+                            e.printStackTrace();;
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+
+                    });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+    public void downloadToken(DownloadCallback callback) throws IOException, JSONException {
+        try {
+            StorageReference downloadRef = storage.getReference().child("json/data.json");
+            File localFile = File.createTempFile("tempJson", "json");
+            downloadRef.getFile(localFile).addOnSuccessListener(taskSnapshot -> {
+
+                try {
+                    String jsonString = new String(Files.readAllBytes(localFile.toPath()), StandardCharsets.UTF_8);
+                    callback.successMethod(jsonString);
+
+                } catch (IOException e) {
+                    callback.failureMethod(e);
+
+                }
+            }).addOnFailureListener(e -> {
+
+            });
+        } catch (Exception e) {
+            callback.failureMethod(e);
         }
     }
 
