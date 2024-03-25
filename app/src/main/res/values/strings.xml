@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">SpotifyWrapped</string>
+    <string name="serverClientID">892985841376-c1ibm6dufa4t85ao22t5pisvstgq6b0o.apps.googleusercontent.com</string>
+    <string name="login">Login</string>
 </resources>
