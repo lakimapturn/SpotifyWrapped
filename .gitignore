@@ -13,3 +13,8 @@
 .externalNativeBuild
 .cxx
 local.properties
+.idea/copilot/chatSessions/xd.lck
+.idea/copilot/chatSessions/00000000000.xd
+.idea/copilot/chatSessions/blobs/version
+.idea/discord.xml
+.idea/deploymentTargetDropDown.xml
