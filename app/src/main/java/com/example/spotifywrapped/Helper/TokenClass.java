@@ -1,4 +1,4 @@
-package com.example.spotifywrapped;
+package com.example.spotifywrapped.Helper;
 
 public class TokenClass {
     private static TokenClass instance;

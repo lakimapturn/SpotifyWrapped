@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.spotifywrapped.Helper.TokenClass;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
