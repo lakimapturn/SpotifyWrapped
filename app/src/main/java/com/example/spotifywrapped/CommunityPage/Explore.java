@@ -10,13 +10,18 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.spotifywrapped.R;
+
+
 public class Explore extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        View ToDoListLayout = inflater.inflate(R.layout.list_view, container, false);
+        View ExplorePageView = inflater.inflate(R.layout.community_page, container, false);
 
-        return ToDoListLayout;
+        return ExplorePageView;
     }
+
+
 }
