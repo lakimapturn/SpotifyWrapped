@@ -46,7 +46,7 @@ public class Login extends MainActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)  {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         final AuthorizationResponse response = AuthorizationClient.getResponse(resultCode, data);
         if (response.getAccessToken() != null) {
@@ -61,13 +61,15 @@ public class Login extends MainActivity {
             }
         }
     }
+
     private AuthorizationRequest getAuthenticationRequest(AuthorizationResponse.Type type) {
         return new AuthorizationRequest.Builder(CLIENT_ID, type, getRedirectUri().toString())
                 .setShowDialog(false)
-                .setScopes(new String[] { "user-read-email" })
+                .setScopes(new String[]{"user-read-email"})
                 .setCampaign("your-campaign-token")
                 .build();
     }
+
     private Uri getRedirectUri() {
         return Uri.parse(REDIRECT_URI);
     }
@@ -77,6 +79,7 @@ public class Login extends MainActivity {
             mCall.cancel();
         }
     }
+
     public void uploadJson(String responseToken) throws JSONException {
         try {
             JSONObject jsonObject = new JSONObject();
@@ -91,7 +94,7 @@ public class Login extends MainActivity {
                             downloadToken(new DownloadCallback() {
                                 @Override
                                 public void successMethod(String theJsonString) {
-                                    TokenClass.getInstance().setFireAccessToken(theJsonString.substring(17, theJsonString.length()-2));
+                                    TokenClass.getInstance().setFireAccessToken(theJsonString.substring(17, theJsonString.length() - 2));
                                     //fireAccessToken = TokenClass.getInstance().getFireAccessToken();
                                     Intent intent = new Intent(Login.this, Home.class);
                                     startActivity(intent);
@@ -103,7 +106,8 @@ public class Login extends MainActivity {
                                 }
                             });
                         } catch (Exception e) {
-                            e.printStackTrace();;
+                            e.printStackTrace();
+                            ;
                         }
                     })
                     .addOnFailureListener(e -> {
@@ -114,6 +118,7 @@ public class Login extends MainActivity {
         }
 
     }
+
     public void downloadToken(DownloadCallback callback) throws IOException, JSONException {
         try {
             StorageReference downloadRef = storage.getReference().child("json/data.json");
