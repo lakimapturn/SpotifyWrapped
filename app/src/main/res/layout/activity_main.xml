@@ -1,71 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context=".MainActivity">
 
-    <LinearLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        android:background="@color/darkGray">
 
-<!--        <TextView-->
-<!--            android:id="@+id/token_text_view"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_margin="8dp"-->
-<!--            tools:text="Token:" />-->
-
-<!--        <Button-->
-<!--            android:id="@+id/token_btn"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_margin="8dp"-->
-<!--            android:text="Request Token" />-->
-
-<!--        <TextView-->
-<!--            android:id="@+id/code_text_view"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_margin="8dp"-->
-<!--            tools:text="Code:" />-->
-
-<!--        <Button-->
-<!--            android:id="@+id/code_btn"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_margin="8dp"-->
-<!--            android:text="Request Code" />-->
-
-<!--        <TextView-->
-<!--            android:id="@+id/response_text_view"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:textSize="10sp"-->
-<!--            tools:text="Line 1\nLine 2\nLine 3" />-->
-
-<!--        <LinearLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content">-->
-
-<!--            <Button-->
-<!--                android:id="@+id/profile_btn"-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_gravity="center_vertical"-->
-<!--                android:layout_margin="8dp"-->
-<!--                android:layout_weight="1"-->
-<!--                android:text="Get User Profile" />-->
-<!--        </LinearLayout>-->
-
-        <Button
-            android:id="@+id/login_button"
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/login" />
-    </LinearLayout>
+            android:layout_height="?attr/actionBarSize"
+            app:titleTextColor="@color/white"
+            app:subtitleTextColor="@color/white"
+            />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <fragment
+        android:layout_marginTop="45dp"
+        android:id="@+id/nav_host_fragment_container"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="409dp"
+        android:layout_height="729dp"
+        app:defaultNavHost="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navGraph="@navigation/nav_graph" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

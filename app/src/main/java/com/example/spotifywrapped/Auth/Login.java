@@ -4,10 +4,21 @@ import static com.example.spotifywrapped.Helper.Helper.AUTH_TOKEN_REQUEST_CODE;
 import static com.example.spotifywrapped.Helper.Helper.CLIENT_ID;
 import static com.example.spotifywrapped.Helper.Helper.REDIRECT_URI;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.spotifywrapped.Helper.DownloadCallback;
 import com.example.spotifywrapped.Home;
@@ -29,32 +40,56 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
 import okhttp3.Call;
+import com.example.spotifywrapped.databinding.LoginBinding;
 
-public class Login extends MainActivity {
+public class Login extends Fragment {
     private Call mCall;
     private FirebaseStorage storage;
 
+    private LoginBinding binding;
+
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login);
-        storage = FirebaseStorage.getInstance();
-        Button loginBtn = (Button) findViewById(R.id.login_button);
-        loginBtn.setOnClickListener((v) -> {
-            getToken();
-        });
+        binding = LoginBinding.inflate(inflater, container, false);
+
+        return binding.getRoot();
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        storage = FirebaseStorage.getInstance();
+        Button loginBtn = view.findViewById(R.id.login_button);
+        binding.loginButton.setOnClickListener(v -> getToken());
+
+    }
+
+
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.login);
+//        storage = FirebaseStorage.getInstance();
+//        Button loginBtn = (Button) findViewById(R.id.login_button);
+//        loginBtn.setOnClickListener((v) -> {
+//            getToken();
+//        });
+//    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         final AuthorizationResponse response = AuthorizationClient.getResponse(resultCode, data);
         if (response.getAccessToken() != null) {
             try {
                 uploadJson(response.getAccessToken());
                 if (TokenClass.getInstance().getFireAccessToken() != null) {
-                    Intent intent = new Intent(Login.this, Home.class);
-                    startActivity(intent);
+//                    Intent intent = new Intent(Login.this, Home.class);
+//                    startActivity(intent);
+                    NavHostFragment.findNavController(Login.this)
+                            .navigate(R.id.action_login_to_home);
                 }
             } catch (JSONException e) {
                 throw new RuntimeException(e);
@@ -96,8 +131,10 @@ public class Login extends MainActivity {
                                 public void successMethod(String theJsonString) {
                                     TokenClass.getInstance().setFireAccessToken(theJsonString.substring(17, theJsonString.length() - 2));
                                     //fireAccessToken = TokenClass.getInstance().getFireAccessToken();
-                                    Intent intent = new Intent(Login.this, Home.class);
-                                    startActivity(intent);
+//                                    Intent intent = new Intent(Login.this, Home.class);
+//                                    startActivity(intent);
+                                    NavHostFragment.findNavController(Login.this)
+                                            .navigate(R.id.action_login_to_home);
                                 }
 
                                 @Override
@@ -143,8 +180,26 @@ public class Login extends MainActivity {
 
     public void getToken() {
         final AuthorizationRequest request = getAuthenticationRequest(AuthorizationResponse.Type.TOKEN);
-        AuthorizationClient.openLoginActivity(Login.this, AUTH_TOKEN_REQUEST_CODE, request);
+        Intent intent = AuthorizationClient.createLoginActivityIntent(getActivity(), request);
+        authActivityResultLauncher.launch(intent);
+        //AuthorizationClient.openLoginActivity(getActivity(), AUTH_TOKEN_REQUEST_CODE, request);
     }
+    private final ActivityResultLauncher<Intent> authActivityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
+                    final AuthorizationResponse response = AuthorizationClient.getResponse(result.getResultCode(), result.getData());
+                    if (response.getAccessToken() != null) {
+                        try {
+                            uploadJson(response.getAccessToken());
+                        } catch (JSONException e) {
+                            e.printStackTrace(); // Or handle the error as you see fit
+                        }
+                    }
+                }
+            });
+
+
 
     @Override
     public void onDestroy() {
