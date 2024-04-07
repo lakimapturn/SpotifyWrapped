@@ -39,17 +39,6 @@ public class Home extends Fragment {
     private Call mCall;
     private final OkHttpClient mOkHttpClient = new OkHttpClient();
 
-
-    //    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_home);
-//        profileTextView = (TextView) findViewById(R.id.response_text_view);
-//        Button profileBtn = (Button) findViewById(R.id.profile_btn);
-//        profileBtn.setOnClickListener((v) -> {
-//            onGetUserProfileClicked();
-//        });
-//    }
     public View onCreateView(LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = HomeBinding.inflate(inflater, container, false);
@@ -82,9 +71,13 @@ public class Home extends Fragment {
             public void onResponse(Call call, Response response) throws IOException {
                 try {
                     final JSONObject jsonObject = new JSONObject(response.body().string());
-                    //setTextAsync(jsonObject.toString(3), profileTextView);
                     HomeDirections.ActionHomeToSummary action = HomeDirections.actionHomeToSummary(jsonObject.toString());
-                    NavHostFragment.findNavController(Home.this).navigate(action);
+
+                    getActivity().runOnUiThread(() -> {
+                        if (isAdded()) {
+                            NavHostFragment.findNavController(Home.this).navigate(action);
+                        }
+                    });
 
 
                 } catch (JSONException e) {
@@ -95,47 +88,7 @@ public class Home extends Fragment {
             }
         });
 
-        mCall.enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Log.d("HTTP", "Failed to fetch data: " + e);
-                getActivity().runOnUiThread(() ->
-                        Toast.makeText(getContext(), "Failed to fetch data, watch Logcat for more details",
-                                Toast.LENGTH_SHORT).show());
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                try {
-                    final JSONObject jsonObject = new JSONObject(response.body().string());
-                    // Assuming you want to pass the whole JSON object as a string to the SummaryFragment
-                    String jsonData = jsonObject.toString();
-                    HomeDirections.ActionHomeToSummary action =
-                            HomeDirections.actionHomeToSummary(jsonData.toString());
-
-                    NavHostFragment.findNavController(Home.this).navigate(action);
-
-                    // Correctly setting data to pass to SummaryFragment
-
-
-//                        HomeFragmentDirections.ActionHomeFragmentToSummaryFragment action =
-//                                HomeFragmentDirections.ActionHomeFragmentToSummaryFragment(jsonData);
-//                        NavHostFragment.findNavController(Home.this).navigate(action);
-                    //});
-
-                } catch (JSONException e) {
-                    Log.d("JSON", "Failed to parse data: " + e);
-                    getActivity().runOnUiThread(() ->
-                            Toast.makeText(getContext(), "Failed to parse data, watch Logcat for more details",
-                                    Toast.LENGTH_SHORT).show());
-                }
-            }
-        });
     }
-
-    //        private void setTextAsync(final String text, TextView textView) {
-//        getActivity().runOnUiThread(() -> textView.setText(text));
-//    }
     private void cancelCall() {
         if (mCall != null) {
             mCall.cancel();

@@ -33,8 +33,8 @@ public class Summary extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        SummaryArgs.fromBundle(getArguments()).getJsonData();
-
+        String summaryVal = SummaryArgs.fromBundle(getArguments()).getJsonData();
+        binding.summaryid.setText(summaryVal);
     }
 
 }

@@ -67,16 +67,6 @@ public class Login extends Fragment {
     }
 
 
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.login);
-//        storage = FirebaseStorage.getInstance();
-//        Button loginBtn = (Button) findViewById(R.id.login_button);
-//        loginBtn.setOnClickListener((v) -> {
-//            getToken();
-//        });
-//    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -86,8 +76,6 @@ public class Login extends Fragment {
             try {
                 uploadJson(response.getAccessToken());
                 if (TokenClass.getInstance().getFireAccessToken() != null) {
-//                    Intent intent = new Intent(Login.this, Home.class);
-//                    startActivity(intent);
                     NavHostFragment.findNavController(Login.this)
                             .navigate(R.id.action_login_to_home);
                 }
@@ -130,9 +118,6 @@ public class Login extends Fragment {
                                 @Override
                                 public void successMethod(String theJsonString) {
                                     TokenClass.getInstance().setFireAccessToken(theJsonString.substring(17, theJsonString.length() - 2));
-                                    //fireAccessToken = TokenClass.getInstance().getFireAccessToken();
-//                                    Intent intent = new Intent(Login.this, Home.class);
-//                                    startActivity(intent);
                                     NavHostFragment.findNavController(Login.this)
                                             .navigate(R.id.action_login_to_home);
                                 }
@@ -182,7 +167,6 @@ public class Login extends Fragment {
         final AuthorizationRequest request = getAuthenticationRequest(AuthorizationResponse.Type.TOKEN);
         Intent intent = AuthorizationClient.createLoginActivityIntent(getActivity(), request);
         authActivityResultLauncher.launch(intent);
-        //AuthorizationClient.openLoginActivity(getActivity(), AUTH_TOKEN_REQUEST_CODE, request);
     }
     private final ActivityResultLauncher<Intent> authActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -193,7 +177,7 @@ public class Login extends Fragment {
                         try {
                             uploadJson(response.getAccessToken());
                         } catch (JSONException e) {
-                            e.printStackTrace(); // Or handle the error as you see fit
+                            e.printStackTrace();
                         }
                     }
                 }
