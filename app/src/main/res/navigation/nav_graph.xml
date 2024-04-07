@@ -24,16 +24,15 @@
         <action
             android:id="@+id/action_home_to_summary"
             app:destination="@id/summary" />
-        <argument
-            android:name="jsonData"
-            android:defaultValue="@null"
-            app:argType="string"
-            app:nullable="true" />
-        </fragment>
+    </fragment>
     <fragment
         android:id="@+id/summary"
         android:name="com.example.spotifywrapped.screen1.Summary"
         tools:layout="@layout/summary">
+        <argument
+            android:name="jsonData"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
 
 </navigation>
