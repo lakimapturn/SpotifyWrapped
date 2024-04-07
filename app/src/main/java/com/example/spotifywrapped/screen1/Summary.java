@@ -10,7 +10,9 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import com.example.spotifywrapped.databinding.SummaryBinding;
+
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
@@ -31,8 +33,7 @@ public class Summary extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-         SummaryArgs.fromBundle(getArguments()).getData();
+        SummaryArgs.fromBundle(getArguments()).getJsonData();
 
     }
 
