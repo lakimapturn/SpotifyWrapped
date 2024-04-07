@@ -15,7 +15,6 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
 
     private AppBarConfiguration appBarConfiguration;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
