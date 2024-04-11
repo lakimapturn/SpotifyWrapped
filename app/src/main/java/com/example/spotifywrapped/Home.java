@@ -43,6 +43,7 @@ public class Home extends Fragment {
         super.onCreate(savedInstanceState);
         binding = HomeBinding.inflate(inflater, container, false);
         binding.profileBtn.setOnClickListener(v -> onGetUserProfileClicked());
+        binding.accountBtn.setOnClickListener(v -> onGetAccountInfoClicked());
         return binding.getRoot();
     }
 
@@ -89,6 +90,11 @@ public class Home extends Fragment {
         });
 
     }
+
+    public void onGetAccountInfoClicked() {
+        NavHostFragment.findNavController(this).navigate(R.id.accountInfo2);
+    }
+
     private void cancelCall() {
         if (mCall != null) {
             mCall.cancel();
