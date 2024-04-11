@@ -1,7 +1,7 @@
 name: AndroidBuild
 on:
   pull_request:
-    branches: [ main ]
+    branches: [ main, mihir, advait, laksh, surya ]
   push:
     branches: [ main, mihir, advait, laksh, surya ]
 
