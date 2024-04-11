@@ -46,11 +46,20 @@
         <action
             android:id="@+id/action_accountInfo2_to_deleteAccount2"
             app:destination="@id/deleteAccount2" />
+        <action
+            android:id="@+id/action_accountInfo2_to_editAccount"
+            app:destination="@id/editAccount" />
     </fragment>
     <fragment
         android:id="@+id/deleteAccount2"
         android:name="com.example.spotifywrapped.DeleteAccount"
         android:label="DeleteAccount"
         tools:layout="@layout/delete_account" />
+    <fragment
+        android:id="@+id/editAccount"
+        android:name="com.example.spotifywrapped.EditAccount"
+        android:label="EditAccount"
+        tools:layout="@layout/edit_account"/>
+
 
 </navigation>

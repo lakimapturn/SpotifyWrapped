@@ -18,10 +18,14 @@ public class AccountInfo extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = UserAccountInfoBinding.inflate(inflater, container, false);
+        binding.arrowForward2.setOnClickListener(v -> onArrow2Clicked());
         binding.arrowForward3.setOnClickListener(v -> onArrow3Clicked());
         return binding.getRoot();
     }
 
+    private void onArrow2Clicked() {
+        NavHostFragment.findNavController(this).navigate(R.id.deleteAccount2);
+    }
     private void onArrow3Clicked() {
         NavHostFragment.findNavController(this).navigate(R.id.deleteAccount2);
     }
