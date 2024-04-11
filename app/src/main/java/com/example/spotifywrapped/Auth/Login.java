@@ -1,6 +1,5 @@
 package com.example.spotifywrapped.Auth;
 
-import static com.example.spotifywrapped.Helper.Helper.AUTH_TOKEN_REQUEST_CODE;
 import static com.example.spotifywrapped.Helper.Helper.CLIENT_ID;
 import static com.example.spotifywrapped.Helper.Helper.REDIRECT_URI;
 
@@ -8,21 +7,29 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.spotifywrapped.Helper.DownloadCallback;
-import com.example.spotifywrapped.Home;
-import com.example.spotifywrapped.MainActivity;
 import com.example.spotifywrapped.R;
 import com.example.spotifywrapped.Helper.TokenClass;
 import com.google.firebase.storage.FirebaseStorage;
@@ -40,13 +47,19 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
 import okhttp3.Call;
+
 import com.example.spotifywrapped.databinding.LoginBinding;
 
 public class Login extends Fragment {
     private Call mCall;
     private FirebaseStorage storage;
-
     private LoginBinding binding;
+
+    EditText email, password;
+    ImageButton eyeToggle;
+    android.widget.Button login, register;
+    String pass, e;
+    boolean show = true;
 
     @Nullable
     @Override
@@ -61,12 +74,97 @@ public class Login extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         storage = FirebaseStorage.getInstance();
-        Button loginBtn = view.findViewById(R.id.login_button);
-        binding.loginButton.setOnClickListener(v -> getToken());
+
+        email = view.findViewById(R.id.mail_edit_text);
+        password = view.findViewById(R.id.password_edit_text);
+        eyeToggle = view.findViewById(R.id.password_toggle);
+        login = view.findViewById(R.id.login_btn);
+        register = view.findViewById(R.id.register);
+
+        register.setOnClickListener(v -> getToken());
+
+        eyeToggle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (show) {
+                    show = false;
+                    eyeToggle.setImageResource(R.drawable.ic_baseline_visibility_off_24);
+                    password.setTransformationMethod(new PasswordTransformationMethod());
+                } else {
+                    show = true;
+                    eyeToggle.setImageResource(R.drawable.ic_baseline_visibility_24);
+                    password.setTransformationMethod(null);
+                }
+            }
+        });
+
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(view.getContext(), "Login Successful", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        email.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    e = "Done";
+//                    redo
+//                    email.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.edit_text_focus_bg));
+//                    password.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.edit_text_bg));
+                }
+            }
+        });
+
+        password.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+//                    redo
+//                    password.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.edit_text_focus_bg));
+//                    email.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.edit_text_bg));
+                }
+            }
+        });
+
+
+        password.addTextChangedListener(loginTextWatcher);
+        email.addTextChangedListener(loginTextWatcher);
 
     }
 
+    private TextWatcher loginTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            String emailinput, passwordinput;
+            emailinput = email.getText().toString().trim();
+            passwordinput = password.getText().toString().trim();
+
+
+            if (!emailinput.isEmpty() && !passwordinput.isEmpty()) {
+                login.setEnabled(true);
+                login.setClickable(true);
+//                login.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.btn_bg_active));
+            } else {
+                login.setEnabled(false);
+                login.setClickable(false);
+//                login.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.btn_background));
+            }
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    };
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -88,7 +186,7 @@ public class Login extends Fragment {
     private AuthorizationRequest getAuthenticationRequest(AuthorizationResponse.Type type) {
         return new AuthorizationRequest.Builder(CLIENT_ID, type, getRedirectUri().toString())
                 .setShowDialog(false)
-                .setScopes(new String[]{"user-read-email"})
+                .setScopes(new String[]{"user-read-email", "user-library-read", "user-top-read"})
                 .setCampaign("your-campaign-token")
                 .build();
     }
@@ -118,8 +216,7 @@ public class Login extends Fragment {
                                 @Override
                                 public void successMethod(String theJsonString) {
                                     TokenClass.getInstance().setFireAccessToken(theJsonString.substring(17, theJsonString.length() - 2));
-                                    NavHostFragment.findNavController(Login.this)
-                                            .navigate(R.id.action_login_to_home);
+                                    NavHostFragment.findNavController(Login.this).navigate(R.id.action_login_to_home);
                                 }
 
                                 @Override
@@ -129,7 +226,6 @@ public class Login extends Fragment {
                             });
                         } catch (Exception e) {
                             e.printStackTrace();
-                            ;
                         }
                     })
                     .addOnFailureListener(e -> {
@@ -168,6 +264,7 @@ public class Login extends Fragment {
         Intent intent = AuthorizationClient.createLoginActivityIntent(getActivity(), request);
         authActivityResultLauncher.launch(intent);
     }
+
     private final ActivityResultLauncher<Intent> authActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
@@ -182,7 +279,6 @@ public class Login extends Fragment {
                     }
                 }
             });
-
 
 
     @Override
