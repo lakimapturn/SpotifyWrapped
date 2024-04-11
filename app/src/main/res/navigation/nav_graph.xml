@@ -24,6 +24,12 @@
         <action
             android:id="@+id/action_home_to_summary"
             app:destination="@id/summary" />
+        <action
+            android:id="@+id/action_home_to_explore"
+            app:destination="@id/explore" />
+        <action
+            android:id="@+id/action_home_to_userPage"
+            app:destination="@id/userPage" />
     </fragment>
     <fragment
         android:id="@+id/summary"
@@ -34,5 +40,13 @@
             app:argType="string"
             app:nullable="true" />
     </fragment>
+    <fragment
+        android:id="@+id/explore"
+        android:name="com.example.spotifywrapped.CommunityPage.Explore"
+        android:label="Explore" />
+    <fragment
+        android:id="@+id/userPage"
+        android:name="com.example.spotifywrapped.UserPage.UserPage"
+        android:label="UserPage" />
 
 </navigation>

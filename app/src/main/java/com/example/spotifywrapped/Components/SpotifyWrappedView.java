@@ -26,15 +26,11 @@ public class SpotifyWrappedView extends AppCompatActivity {
 
         ListView topArtistsList = findViewById(R.id.top_artists_list);
         ListView topSongsList = findViewById(R.id.top_songs_list);
-        TextView timeListenedValue = findViewById(R.id.time_listened_value);
-        TextView topGenreValue = findViewById(R.id.top_genre_value);
 
         ArrayAdapter<String> topArtistsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, spotifyWrapped.getTopArtists());
         topArtistsList.setAdapter(topArtistsAdapter);
         ArrayAdapter<String> topSongsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, spotifyWrapped.getTopSongs());
         topSongsList.setAdapter(topSongsAdapter);
-        timeListenedValue.setText(spotifyWrapped.getMinutesListened());
-        topGenreValue.setText(spotifyWrapped.getTopGenre());
     }
 
 }

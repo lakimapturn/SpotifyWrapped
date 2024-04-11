@@ -30,7 +30,9 @@
 
         </androidx.cardview.widget.CardView>
 
-        <include layout="@layout/spotify_wrapped_list_item" />
+        <include
+            android:id="@+id/spotify_wrapped_item"
+            layout="@layout/spotify_wrapped_list_item" />
 
         <!--   Comments implementation can go here     -->
 

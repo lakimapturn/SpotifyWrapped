@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/primarydark"
-    tools:context=".LoginPage">
-
+    tools:context=".Auth.AuthPage">
 
     <TextView
         android:id="@+id/mail_text"
@@ -87,7 +86,7 @@
     </android.widget.Button>
 
     <android.widget.Button
-        android:id="@+id/login_without_password"
+        android:id="@+id/register"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
         android:layout_below="@id/login_btn"
@@ -96,7 +95,7 @@
         android:letterSpacing="0.2"
         android:paddingStart="18dp"
         android:paddingEnd="18dp"
-        android:text="@string/log_in_without_password"
+        android:text="@string/register"
         android:textColor="@color/white"
         android:textSize="11sp"
         android:textStyle="bold"

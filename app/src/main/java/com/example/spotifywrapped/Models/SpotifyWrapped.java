@@ -9,12 +9,12 @@ public class SpotifyWrapped {
      */
     private String[] topArtists;
     private String[] topSongs;
-    private String minutesListened;
+    private int minutesListened;
     private String topGenre;
     private boolean isPublic;
     private ArrayList<Comment> comments;
 
-    public SpotifyWrapped(String[] topArtists, String[] topSongs, String minutesListened, String topGenre, boolean isPublic, ArrayList<Comment> comments) {
+    public SpotifyWrapped(String[] topArtists, String[] topSongs, int minutesListened, String topGenre, boolean isPublic, ArrayList<Comment> comments) {
         this.topArtists = topArtists;
         this.topSongs = topSongs;
         this.minutesListened = minutesListened;
@@ -39,11 +39,11 @@ public class SpotifyWrapped {
         this.topSongs = topSongs;
     }
 
-    public String getMinutesListened() {
+    public int getMinutesListened() {
         return minutesListened;
     }
 
-    public void setMinutesListened(String minutesListened) {
+    public void setMinutesListened(int minutesListened) {
         this.minutesListened = minutesListened;
     }
 
