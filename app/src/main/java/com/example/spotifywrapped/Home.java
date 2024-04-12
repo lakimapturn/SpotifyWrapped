@@ -38,12 +38,14 @@ public class Home extends Fragment {
         super.onCreate(savedInstanceState);
         binding = HomeBinding.inflate(inflater, container, false);
         binding.profileBtn.setOnClickListener(v -> onGetUserProfileClicked());
+        binding.accountBtn.setOnClickListener(v -> onGetAccountInfoClicked());
         binding.explore.setOnClickListener(v ->
                 NavHostFragment.findNavController(Home.this).
                         navigate(HomeDirections.actionHomeToExplore()));
         binding.personalPage.setOnClickListener(v ->
                 NavHostFragment.findNavController(Home.this).
                         navigate(HomeDirections.actionHomeToUserPage()));
+
         return binding.getRoot();
     }
 
@@ -70,7 +72,12 @@ public class Home extends Fragment {
 
     }
 
-    public void processData(Request request, ProcessType type) {
+
+    private void onGetAccountInfoClicked() {
+        NavHostFragment.findNavController(this).navigate(R.id.accountInfo);
+    }
+
+    public void processData(Request request) {
         mOkHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
