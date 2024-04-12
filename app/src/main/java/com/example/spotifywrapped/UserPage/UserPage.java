@@ -16,9 +16,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.spotifywrapped.Helper.Helper;
 import com.example.spotifywrapped.Models.SpotifyWrapped;
 import com.example.spotifywrapped.R;
 import com.example.spotifywrapped.State.AppState;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class UserPage extends Fragment {
 
@@ -42,6 +44,7 @@ public class UserPage extends Fragment {
         isSpotifyWrappedPublic = view.findViewById(R.id.private_btn);
         isSpotifyWrappedPublic.setOnCheckedChangeListener((CompoundButton buttonView, boolean isChecked) -> {
                 spotifyWrapped.setPublic(isChecked);
+                Helper.writeToFirebase(FirebaseAuth.getInstance().getUid());
             }
         );
 
@@ -55,5 +58,8 @@ public class UserPage extends Fragment {
         topArtistsList.setAdapter(topArtistsAdapter);
         ArrayAdapter<String> topSongsAdapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_list_item_1, spotifyWrapped.getTopSongs());
         topSongsList.setAdapter(topSongsAdapter);
+
+        Helper.writeToFirebase(FirebaseAuth.getInstance().getUid());
+
     }
 }

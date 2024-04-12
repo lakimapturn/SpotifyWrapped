@@ -100,7 +100,7 @@ public class Home extends Fragment {
                     if (type == ProcessType.artists) {
                         AppState.user.getSpotifyWrapped().setTopArtists(Helper.parseTopArtists(items));
                     } else if (type == ProcessType.tracks) {
-                        AppState.user.getSpotifyWrapped().setTopSongs(Helper.parseTopAlbums(items));
+                        AppState.user.getSpotifyWrapped().setTopSongs(Helper.parseTopSongs(items));
                     }
 //                    HomeDirections.ActionHomeToSummary action = HomeDirections.actionHomeToSummary(jsonObject.toString());
 
