@@ -8,8 +8,10 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +34,11 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.example.spotifywrapped.Helper.DownloadCallback;
 import com.example.spotifywrapped.R;
 import com.example.spotifywrapped.Helper.TokenClass;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.spotify.sdk.android.auth.AuthorizationClient;
@@ -53,11 +60,12 @@ import com.example.spotifywrapped.databinding.LoginBinding;
 public class Login extends Fragment {
     private Call mCall;
     private FirebaseStorage storage;
+    private FirebaseAuth mAuth;
     private LoginBinding binding;
 
     EditText email, password;
     ImageButton eyeToggle;
-    android.widget.Button login, register;
+    android.widget.Button login, register, dummyregister, update;
     String pass, e;
     boolean show = true;
 
@@ -74,12 +82,14 @@ public class Login extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         storage = FirebaseStorage.getInstance();
-
+        mAuth = FirebaseAuth.getInstance();
         email = view.findViewById(R.id.mail_edit_text);
         password = view.findViewById(R.id.password_edit_text);
         eyeToggle = view.findViewById(R.id.password_toggle);
         login = view.findViewById(R.id.login_btn);
         register = view.findViewById(R.id.register);
+        dummyregister = view.findViewById(R.id.dummy_register);
+        update = view.findViewById(R.id.update_info_btn);
 
         register.setOnClickListener(v -> getToken());
 
@@ -101,9 +111,108 @@ public class Login extends Fragment {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(view.getContext(), "Login Successful", Toast.LENGTH_SHORT).show();
+                String user,pwd;
+                user = String.valueOf(email.getText());
+                pwd = String.valueOf(password.getText());
+                if (TextUtils.isEmpty(user)) {
+                    Toast.makeText(view.getContext(), "Enter user/email", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (TextUtils.isEmpty(pwd)) {
+                    Toast.makeText(view.getContext(), "Enter user/email", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                mAuth.signInWithEmailAndPassword(user, pwd)
+                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(view.getContext(), "Login successful.",
+                                            Toast.LENGTH_SHORT).show();                                    FirebaseUser user = mAuth.getCurrentUser();
+                                } else {
+                                    // If sign in fails, display a message to the user.
+                                    Toast.makeText(view.getContext(), "Authentication failed.",
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
             }
         });
+
+        dummyregister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String user,pwd;
+                user = String.valueOf(email.getText());
+                pwd = String.valueOf(password.getText());
+                if (TextUtils.isEmpty(user)) {
+                    Toast.makeText(view.getContext(), "Enter user/email", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (TextUtils.isEmpty(pwd)) {
+                    Toast.makeText(view.getContext(), "Enter user/email", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                mAuth.createUserWithEmailAndPassword(user, pwd)
+                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(view.getContext(), "Account created.",
+                                            Toast.LENGTH_SHORT).show();
+                                } else {
+                                    // If sign in fails, display a message to the user.
+                                    Toast.makeText(view.getContext(), "Authentication failed.",
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+            }
+        });
+//        update.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                String username,pwd;
+//                username = String.valueOf(email.getText());
+//                pwd = String.valueOf(password.getText());
+//                if (TextUtils.isEmpty(username) && TextUtils.isEmpty(pwd)) {
+//                    Toast.makeText(view.getContext(), "Enter new user/pwd", Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
+//                if (!TextUtils.isEmpty(username)) {
+//                    FirebaseUser currentUser = mAuth.getCurrentUser();
+//                    if (currentUser != null) {
+//                        currentUser.verifyBeforeUpdateEmail(username)
+//                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+//                                    @Override
+//                                    public void onComplete(@NonNull Task<Void> task) {
+//                                        if (task.isSuccessful()) {
+//                                            Toast.makeText(view.getContext(), "Email updated.",
+//                                                    Toast.LENGTH_SHORT).show();
+//                                        } else {
+//                                            // If sign in fails, display a message to the user.
+//                                            Toast.makeText(view.getContext(), "Failed to update.",
+//                                                    Toast.LENGTH_SHORT).show();
+//                                        }
+//                                    }
+//                                });
+//                    }
+//                } if (!TextUtils.isEmpty(pwd)) {
+//                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+//
+//                    user.updatePassword(pwd)
+//                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+//                                @Override
+//                                public void onComplete(@NonNull Task<Void> task) {
+//                                    if (task.isSuccessful()) {
+//                                        Toast.makeText(view.getContext(), "Password updated.",
+//                                                Toast.LENGTH_SHORT).show();
+//                                    }
+//                                }
+//                            });
+//                }
+//            }
+//        });
 
         email.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
