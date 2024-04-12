@@ -1,13 +1,19 @@
 package com.example.spotifywrapped.Helper;
 
 import android.util.Log;
+import android.widget.Adapter;
 
+import androidx.annotation.NonNull;
+
+import com.example.spotifywrapped.Models.SpotifyWrapped;
 import com.example.spotifywrapped.Models.User;
 import com.example.spotifywrapped.State.AppState;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,19 +28,19 @@ import okhttp3.OkHttpClient;
 
 public final class Helper {
     private static FirebaseDatabase db = FirebaseDatabase.getInstance();
-    private static DatabaseReference rootRef = db.getReference();
+    public static DatabaseReference rootRef = db.getReference();
     public static final String REDIRECT_URI = "spotifywrapped://auth";
     public static final String CLIENT_ID = "3fb1efe2e6a04635a160cf18b3bc584b";
     public static final int AUTH_TOKEN_REQUEST_CODE = 0;
     private final OkHttpClient mOkHttpClient = new OkHttpClient();
 
-    public static String[] parseTopArtists(JSONArray items) throws JSONException {
-        String[] topSongs = new String[5];
+    public static ArrayList<String> parseTopArtists(JSONArray items) throws JSONException {
+        ArrayList<String> topSongs = new ArrayList<>(5);
 
         try {
-            for (int i = 0; i < topSongs.length; i++) {
+            for (int i = 0; i < topSongs.size(); i++) {
                 JSONObject artist = items.getJSONObject(i);
-                topSongs[i] = String.valueOf(artist.get("name"));
+                topSongs.set(i, String.valueOf(artist.get("name")));
             }
         } catch (Exception e) {
             Log.d("Top Artists Error", e.toString());
@@ -45,14 +51,14 @@ public final class Helper {
         return topSongs;
     }
 
-    public static String[] parseTopSongs(JSONArray items) {
-        String[] topSongs = new String[5];
+    public static ArrayList<String> parseTopSongs(JSONArray items) {
+        ArrayList<String> topSongs = new ArrayList<>(5);
 
         try {
-            for (int i = 0; i < topSongs.length; i++) {
+            for (int i = 0; i < topSongs.size(); i++) {
                 JSONObject album = items.getJSONObject(i);
                 Log.d("Top Albums", album.toString());
-                topSongs[i] = String.valueOf(album.get("name"));
+                topSongs.set(i, String.valueOf(album.get("name")));
             }
         } catch (Exception e) {
             Log.d("Top Songs Error", e.toString());
@@ -69,6 +75,7 @@ public final class Helper {
         wrappedData.put("topArtists", Arrays.asList(AppState.user.getSpotifyWrapped().getTopArtists()));
         wrappedData.put("topSongs", Arrays.asList(AppState.user.getSpotifyWrapped().getTopSongs()));
         wrappedData.put("isPublic", AppState.user.getSpotifyWrapped().isPublic());
+        wrappedData.put("user", AppState.user.getUsername());
 
         DatabaseReference spotifyWrappedRef = rootRef.child("spotifyWrapped");
 
@@ -81,9 +88,11 @@ public final class Helper {
                 .addOnFailureListener(e -> Log.w("Realtime", "Error writing data: ", e));
     }
 
-    public static void setWrappedData(User user, String[] topArtists, String[] topSongs, boolean isPublic) {
+    public static void setWrappedData(User user, ArrayList<String> topArtists, ArrayList<String> topSongs, boolean isPublic) {
         AppState.user.getSpotifyWrapped().setTopArtists(topArtists);
         AppState.user.getSpotifyWrapped().setTopSongs(topSongs);
         AppState.user.getSpotifyWrapped().setPublic(isPublic);
     }
+
+
 }

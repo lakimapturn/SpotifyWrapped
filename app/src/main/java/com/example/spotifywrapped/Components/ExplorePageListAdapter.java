@@ -25,18 +25,6 @@ public class ExplorePageListAdapter extends ArrayAdapter<User> {
 
     public ExplorePageListAdapter(@NonNull Context context, ArrayList<User> list) {
         super(context, R.layout.community_list_item, list);
-        // test data
-        list.add(AppState.user);
-        list.add(new User("", "example", "", "",
-                new SpotifyWrapped(new String[]{"Weekend", "Someone else", "Jesoos"}, new String[]{"Someone", "Lol", "kys"}, 0, "10",
-                        false, new ArrayList<>()), new ArrayList<>()));
-        list.add(new User("", "example1", "", "",
-                new SpotifyWrapped(new String[]{}, new String[]{}, 0, "10",
-                        false, new ArrayList<>()), new ArrayList<>()));
-        list.add(new User("", "example2", "", "",
-                new SpotifyWrapped(new String[]{}, new String[]{}, 0, "10",
-                        false, new ArrayList<>()), new ArrayList<>()));
-
         this.list = list;
         this.context = context;
     }
