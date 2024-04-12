@@ -91,6 +91,7 @@ public class Login extends Fragment {
         dummyregister = view.findViewById(R.id.dummy_register);
         update = view.findViewById(R.id.update_info_btn);
 
+        login.setOnClickListener(v -> getToken());
         register.setOnClickListener(v -> getToken());
 
         eyeToggle.setOnClickListener(new View.OnClickListener() {
@@ -130,6 +131,9 @@ public class Login extends Fragment {
                                     Toast.makeText(view.getContext(), "Login successful.",
                                             Toast.LENGTH_SHORT).show();
                                     FirebaseUser user = mAuth.getCurrentUser();
+                                    if (user != null) {
+                                        NavHostFragment.findNavController(Login.this).navigate(R.id.action_login_to_home);
+                                    }
                                 } else {
                                     // If sign in fails, display a message to the user.
                                     Toast.makeText(view.getContext(), "Authentication failed.",
