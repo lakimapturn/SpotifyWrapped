@@ -61,7 +61,6 @@ public class Explore extends Fragment {
                 AppState.communityList.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
 
-                    System.out.println(dataSnapshot.getValue(SpotifyObject.class).getTopArtists());
                     SpotifyObject object = dataSnapshot.getValue(SpotifyObject.class);
 
 
