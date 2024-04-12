@@ -1,4 +1,6 @@
-package com.example.spotifywrapped;
+package com.example.spotifywrapped.Auth;
+
+import static com.example.spotifywrapped.Helper.Helper.CLIENT_ID;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -11,20 +13,20 @@ import android.text.Html;
 import android.text.TextWatcher;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-public class LoginPage extends AppCompatActivity {
+import com.example.spotifywrapped.R;
+import com.spotify.sdk.android.auth.AuthorizationRequest;
+import com.spotify.sdk.android.auth.AuthorizationResponse;
+
+public class AuthPage extends AppCompatActivity {
 
     EditText email, password;
     ImageButton eyeToggle;
 
-    android.widget.Button login, loginwithoutpassword;
+    android.widget.Button login, register, dummyregister, update;
     String pass, e;
     boolean show = true;
 
@@ -43,7 +45,9 @@ public class LoginPage extends AppCompatActivity {
         password = findViewById(R.id.password_edit_text);
         eyeToggle = findViewById(R.id.password_toggle);
         login = findViewById(R.id.login_btn);
-        loginwithoutpassword = findViewById(R.id.login_without_password);
+        register = findViewById(R.id.register);
+        dummyregister = findViewById(R.id.dummy_register);
+        update = findViewById(R.id.update_info_btn);
 
 
         eyeToggle.setOnClickListener(new View.OnClickListener() {
@@ -65,14 +69,28 @@ public class LoginPage extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(LoginPage.this, "Login Successful", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AuthPage.this, "Login is Clicked", Toast.LENGTH_SHORT).show();
             }
         });
 
-        loginwithoutpassword.setOnClickListener(new View.OnClickListener() {
+        register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(LoginPage.this, "Login Without Password Is Clicked", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AuthPage.this, "Register Is Clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        dummyregister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(AuthPage.this, "Dummy Register Is Clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(AuthPage.this, "Dummy Register Is Clicked", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -129,16 +147,6 @@ public class LoginPage extends AppCompatActivity {
                 login.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.btn_background));
             }
 
-
-        /*    if(!e.isEmpty()&& !pass.isEmpty())
-            {
-                login.setEnabled(true);
-                login.setBackground(ContextCompat.getDrawable(getApplicationContext(),R.drawable.btn_background));
-            }
-*/
-            //  login.setTextColor(getResources().getColor(R.color.grey))
-
-
         }
 
         @Override
@@ -146,5 +154,7 @@ public class LoginPage extends AppCompatActivity {
 
         }
     };
+
+
 
 }

@@ -19,6 +19,7 @@ import com.example.spotifywrapped.Auth.Login;
 import com.example.spotifywrapped.Helper.TokenClass;
 import com.example.spotifywrapped.databinding.HomeBinding;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -43,7 +44,12 @@ public class Home extends Fragment {
         super.onCreate(savedInstanceState);
         binding = HomeBinding.inflate(inflater, container, false);
         binding.profileBtn.setOnClickListener(v -> onGetUserProfileClicked());
-        binding.accountBtn.setOnClickListener(v -> onGetAccountInfoClicked());
+        binding.explore.setOnClickListener(v ->
+                NavHostFragment.findNavController(Home.this).
+                        navigate(HomeDirections.actionHomeToExplore()));
+        binding.personalPage.setOnClickListener(v ->
+                NavHostFragment.findNavController(Home.this).
+                        navigate(HomeDirections.actionHomeToUserPage()));
         return binding.getRoot();
     }
 
@@ -53,14 +59,26 @@ public class Home extends Fragment {
             Toast.makeText(getContext(), "Error in getting access token from Firebase CLS.", Toast.LENGTH_SHORT).show();
             return;
         }
-        final Request request = new Request.Builder()
-                .url("https://api.spotify.com/v1/me")
+
+        final Request tracksRequest = new Request.Builder()
+                .url("https://api.spotify.com/v1/me/top/tracks?time_range=long_term&limit=5")
                 .addHeader("Authorization", "Bearer " + TokenClass.getInstance().getFireAccessToken())
                 .build();
         cancelCall();
-        mCall = mOkHttpClient.newCall(request);
 
-        mCall.enqueue(new Callback() {
+        processData(tracksRequest);
+
+        final Request artistsRequest = new Request.Builder()
+                .url("https://api.spotify.com/v1/me/top/artists?time_range=long_term&limit=5")
+                .addHeader("Authorization", "Bearer " + TokenClass.getInstance().getFireAccessToken())
+                .build();
+        cancelCall();
+        processData(artistsRequest);
+
+    }
+
+    public void processData(Request request) {
+        mOkHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.d("HTTP", "Failed to fetch data: " + e);
@@ -72,6 +90,8 @@ public class Home extends Fragment {
             public void onResponse(Call call, Response response) throws IOException {
                 try {
                     final JSONObject jsonObject = new JSONObject(response.body().string());
+                    JSONArray items = jsonObject.optJSONArray("items");
+                    Log.d("Data", items.toString());
                     HomeDirections.ActionHomeToSummary action = HomeDirections.actionHomeToSummary(jsonObject.toString());
 
                     getActivity().runOnUiThread(() -> {
@@ -88,11 +108,6 @@ public class Home extends Fragment {
                 }
             }
         });
-
-    }
-
-    public void onGetAccountInfoClicked() {
-        NavHostFragment.findNavController(this).navigate(R.id.accountInfo2);
     }
 
     private void cancelCall() {
