@@ -111,7 +111,7 @@ public class Login extends Fragment {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String user,pwd;
+                String user, pwd;
                 user = String.valueOf(email.getText());
                 pwd = String.valueOf(password.getText());
                 if (TextUtils.isEmpty(user)) {
@@ -128,7 +128,8 @@ public class Login extends Fragment {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
                                     Toast.makeText(view.getContext(), "Login successful.",
-                                            Toast.LENGTH_SHORT).show();                                    FirebaseUser user = mAuth.getCurrentUser();
+                                            Toast.LENGTH_SHORT).show();
+                                    FirebaseUser user = mAuth.getCurrentUser();
                                 } else {
                                     // If sign in fails, display a message to the user.
                                     Toast.makeText(view.getContext(), "Authentication failed.",
@@ -142,7 +143,7 @@ public class Login extends Fragment {
         dummyregister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String user,pwd;
+                String user, pwd;
                 user = String.valueOf(email.getText());
                 pwd = String.valueOf(password.getText());
                 if (TextUtils.isEmpty(user)) {
@@ -283,8 +284,7 @@ public class Login extends Fragment {
             try {
                 uploadJson(response.getAccessToken());
                 if (TokenClass.getInstance().getFireAccessToken() != null) {
-                    NavHostFragment.findNavController(Login.this)
-                            .navigate(R.id.action_login_to_home);
+                    NavHostFragment.findNavController(Login.this).navigate(R.id.action_login_to_home);
                 }
             } catch (JSONException e) {
                 throw new RuntimeException(e);
@@ -293,11 +293,7 @@ public class Login extends Fragment {
     }
 
     private AuthorizationRequest getAuthenticationRequest(AuthorizationResponse.Type type) {
-        return new AuthorizationRequest.Builder(CLIENT_ID, type, getRedirectUri().toString())
-                .setShowDialog(false)
-                .setScopes(new String[]{"user-read-email", "user-library-read", "user-top-read"})
-                .setCampaign("your-campaign-token")
-                .build();
+        return new AuthorizationRequest.Builder(CLIENT_ID, type, getRedirectUri().toString()).setShowDialog(false).setScopes(new String[]{"user-read-email", "user-library-read", "user-top-read"}).setCampaign("your-campaign-token").build();
     }
 
     private Uri getRedirectUri() {
@@ -317,29 +313,27 @@ public class Login extends Fragment {
             String jsonString = jsonObject.toString();
             byte[] data = jsonString.getBytes(StandardCharsets.UTF_8);
             StorageReference jsonRef = storage.getReference().child("json/data.json");
-            jsonRef.putBytes(data)
-                    .addOnSuccessListener(taskSnapshot -> {
-                        // Handle success
-                        try {
-                            downloadToken(new DownloadCallback() {
-                                @Override
-                                public void successMethod(String theJsonString) {
-                                    TokenClass.getInstance().setFireAccessToken(theJsonString.substring(17, theJsonString.length() - 2));
-                                    NavHostFragment.findNavController(Login.this).navigate(R.id.action_login_to_home);
-                                }
-
-                                @Override
-                                public void failureMethod(Exception exception) {
-
-                                }
-                            });
-                        } catch (Exception e) {
-                            e.printStackTrace();
+            jsonRef.putBytes(data).addOnSuccessListener(taskSnapshot -> {
+                // Handle success
+                try {
+                    downloadToken(new DownloadCallback() {
+                        @Override
+                        public void successMethod(String theJsonString) {
+                            TokenClass.getInstance().setFireAccessToken(theJsonString.substring(17, theJsonString.length() - 2));
+                            NavHostFragment.findNavController(Login.this).navigate(R.id.action_login_to_home);
                         }
-                    })
-                    .addOnFailureListener(e -> {
 
+                        @Override
+                        public void failureMethod(Exception exception) {
+
+                        }
                     });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }).addOnFailureListener(e -> {
+
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -374,20 +368,21 @@ public class Login extends Fragment {
         authActivityResultLauncher.launch(intent);
     }
 
-    private final ActivityResultLauncher<Intent> authActivityResultLauncher = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            result -> {
-                if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
-                    final AuthorizationResponse response = AuthorizationClient.getResponse(result.getResultCode(), result.getData());
-                    if (response.getAccessToken() != null) {
-                        try {
-                            uploadJson(response.getAccessToken());
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+    private final ActivityResultLauncher<Intent> authActivityResultLauncher =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+                    result -> {
+                        if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
+                            final AuthorizationResponse response = AuthorizationClient.getResponse(
+                                    result.getResultCode(), result.getData());
+                            if (response.getAccessToken() != null) {
+                                try {
+                                    uploadJson(response.getAccessToken());
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
                         }
-                    }
-                }
-            });
+                    });
 
 
     @Override

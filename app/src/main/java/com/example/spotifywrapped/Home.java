@@ -1,8 +1,6 @@
 package com.example.spotifywrapped;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
@@ -11,11 +9,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.spotifywrapped.Auth.Login;
+import com.example.spotifywrapped.Helper.Helper;
 import com.example.spotifywrapped.Helper.TokenClass;
 import com.example.spotifywrapped.databinding.HomeBinding;
 
@@ -30,9 +27,6 @@ import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-
-import androidx.fragment.app.Fragment;
-import androidx.navigation.fragment.NavHostFragment;
 
 public class Home extends Fragment {
     private HomeBinding binding;
@@ -67,15 +61,14 @@ public class Home extends Fragment {
                 .addHeader("Authorization", "Bearer " + TokenClass.getInstance().getFireAccessToken())
                 .build();
         cancelCall();
-
-        processData(tracksRequest);
+        processData(tracksRequest, ProcessType.tracks);
 
         final Request artistsRequest = new Request.Builder()
                 .url("https://api.spotify.com/v1/me/top/artists?time_range=long_term&limit=5")
                 .addHeader("Authorization", "Bearer " + TokenClass.getInstance().getFireAccessToken())
                 .build();
         cancelCall();
-        processData(artistsRequest);
+        processData(artistsRequest, ProcessType.artists);
 
     }
 
@@ -83,7 +76,7 @@ public class Home extends Fragment {
         NavHostFragment.findNavController(this).navigate(R.id.accountInfo);
     }
 
-    public void processData(Request request) {
+    public void processData(Request request, ProcessType type) {
         mOkHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -96,21 +89,27 @@ public class Home extends Fragment {
             public void onResponse(Call call, Response response) throws IOException {
                 try {
                     final JSONObject jsonObject = new JSONObject(response.body().string());
-                    JSONArray items = jsonObject.optJSONArray("items");
-                    Log.d("Data", items.toString());
-                    HomeDirections.ActionHomeToSummary action = HomeDirections.actionHomeToSummary(jsonObject.toString());
+                    JSONArray items = (JSONArray) jsonObject.get("items");
+
+                    String[] result = new String[5];
+
+                    if (type == ProcessType.artists) {
+                        result = Helper.parseTopArtists(items);
+                    } else if (type == ProcessType.tracks) {
+                        result = Helper.parseTopAlbums(items);
+                    }
+//                    HomeDirections.ActionHomeToSummary action = HomeDirections.actionHomeToSummary(jsonObject.toString());
 
                     getActivity().runOnUiThread(() -> {
                         if (isAdded()) {
-                            NavHostFragment.findNavController(Home.this).navigate(action);
+//                            NavHostFragment.findNavController(Home.this).navigate(action);
                         }
                     });
 
 
                 } catch (JSONException e) {
+                    System.out.println(e);
                     Log.d("JSON", "Failed to parse data: " + e);
-                    Toast.makeText(getContext(), "Failed to parse data, watch Logcat for more details",
-                            Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -121,4 +120,11 @@ public class Home extends Fragment {
             mCall.cancel();
         }
     }
+
+    private enum ProcessType {
+        tracks,
+        artists
+    }
 }
+
+
