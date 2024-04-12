@@ -30,43 +30,42 @@ public final class Helper {
     private static FirebaseDatabase db = FirebaseDatabase.getInstance();
     public static DatabaseReference rootRef = db.getReference();
     public static final String REDIRECT_URI = "spotifywrapped://auth";
-    public static final String CLIENT_ID = "3fb1efe2e6a04635a160cf18b3bc584b";
+    public static final String CLIENT_ID = "c04b185b0ff6465e89a82be5d5c860ac";
     public static final int AUTH_TOKEN_REQUEST_CODE = 0;
     private final OkHttpClient mOkHttpClient = new OkHttpClient();
 
-    public static ArrayList<String> parseTopArtists(JSONArray items) throws JSONException {
+    public static ArrayList<String> parseTopArtists(JSONArray items) {
         ArrayList<String> topSongs = new ArrayList<>(5);
 
         try {
-            for (int i = 0; i < topSongs.size(); i++) {
+            for (int i = 0; i < 5; i++) {
                 JSONObject artist = items.getJSONObject(i);
-                topSongs.set(i, String.valueOf(artist.get("name")));
+                topSongs.add(String.valueOf(artist.get("name")));
             }
         } catch (Exception e) {
             Log.d("Top Artists Error", e.toString());
         }
 
-        System.out.println(Arrays.asList(topSongs));
-
         return topSongs;
     }
-
     public static ArrayList<String> parseTopSongs(JSONArray items) {
-        ArrayList<String> topSongs = new ArrayList<>(5);
+        ArrayList<String> topAlbums = new ArrayList<>(5);
 
         try {
-            for (int i = 0; i < topSongs.size(); i++) {
+            for (int i = 0; i < 5; i++) {
+
                 JSONObject album = items.getJSONObject(i);
                 Log.d("Top Albums", album.toString());
-                topSongs.set(i, String.valueOf(album.get("name")));
+
+                topAlbums.add(String.valueOf(album.get("name")));
             }
         } catch (Exception e) {
-            Log.d("Top Songs Error", e.toString());
+            Log.d("Top Albums Error", e.toString());
         }
 
-        System.out.println(Arrays.asList(topSongs));
+        System.out.println(topAlbums);
 
-        return topSongs;
+        return topAlbums;
     }
 
     public static void writeToFirebase(String userId) {
