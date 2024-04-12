@@ -111,7 +111,7 @@ public class Login extends Fragment {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String user,pwd;
+                String user, pwd;
                 user = String.valueOf(email.getText());
                 pwd = String.valueOf(password.getText());
                 if (TextUtils.isEmpty(user)) {
@@ -128,7 +128,8 @@ public class Login extends Fragment {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
                                     Toast.makeText(view.getContext(), "Login successful.",
-                                            Toast.LENGTH_SHORT).show();                                    FirebaseUser user = mAuth.getCurrentUser();
+                                            Toast.LENGTH_SHORT).show();
+                                    FirebaseUser user = mAuth.getCurrentUser();
                                 } else {
                                     // If sign in fails, display a message to the user.
                                     Toast.makeText(view.getContext(), "Authentication failed.",
@@ -142,7 +143,7 @@ public class Login extends Fragment {
         dummyregister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String user,pwd;
+                String user, pwd;
                 user = String.valueOf(email.getText());
                 pwd = String.valueOf(password.getText());
                 if (TextUtils.isEmpty(user)) {
