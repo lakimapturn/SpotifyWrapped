@@ -71,10 +71,12 @@ public final class Helper {
     public static void writeToFirebase(String userId) {
         // Create a HashMap to store artist and song data
         HashMap<String, Object> wrappedData = new HashMap<>();
-        wrappedData.put("topArtists", Arrays.asList(AppState.user.getSpotifyWrapped().getTopArtists()));
-        wrappedData.put("topSongs", Arrays.asList(AppState.user.getSpotifyWrapped().getTopSongs()));
+        wrappedData.put("topArtists", AppState.user.getSpotifyWrapped().getTopArtists());
+        wrappedData.put("topSongs", AppState.user.getSpotifyWrapped().getTopSongs());
         wrappedData.put("isPublic", AppState.user.getSpotifyWrapped().isPublic());
         wrappedData.put("user", AppState.user.getUsername());
+
+        System.out.println(wrappedData);
 
         DatabaseReference spotifyWrappedRef = rootRef.child("spotifyWrapped");
 

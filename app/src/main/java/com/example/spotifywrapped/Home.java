@@ -24,6 +24,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -116,6 +117,8 @@ public class Home extends Fragment {
                 } catch (JSONException e) {
                     System.out.println(e);
                     Log.d("JSON", "Failed to parse data: " + e);
+                    AppState.user.getSpotifyWrapped().setTopSongs(new ArrayList<>());
+                    AppState.user.getSpotifyWrapped().setTopArtists(new ArrayList<>());
                 }
             }
         });

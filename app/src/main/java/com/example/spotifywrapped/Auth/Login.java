@@ -94,7 +94,6 @@ public class Login extends Fragment {
         register = view.findViewById(R.id.register);
         update = view.findViewById(R.id.update_info_btn);
 
-        login.setOnClickListener(v -> getToken());
         register.setOnClickListener(v -> {
             String user = String.valueOf(email.getText());
             String pwd = String.valueOf(password.getText());
@@ -110,6 +109,8 @@ public class Login extends Fragment {
 
             AppState.user.setUsername(user);
             AppState.user.setPassword(pwd);
+
+
 
             mAuth.createUserWithEmailAndPassword(user, pwd)
                     .addOnCompleteListener(task -> {
@@ -162,10 +163,8 @@ public class Login extends Fragment {
                                 if (task.isSuccessful()) {
                                     Toast.makeText(view.getContext(), "Login successful.",
                                             Toast.LENGTH_SHORT).show();
-                                    FirebaseUser user = mAuth.getCurrentUser();
-                                    if (user != null) {
-                                        NavHostFragment.findNavController(Login.this).navigate(R.id.action_login_to_home);
-                                    }
+                                    getToken();
+
                                 } else {
                                     // If sign in fails, display a message to the user.
                                     Toast.makeText(view.getContext(), "Authentication failed.",
@@ -175,85 +174,6 @@ public class Login extends Fragment {
                         });
             }
         });
-
-//        dummyregister.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                String user, pwd;
-//                user = String.valueOf(email.getText());
-//                pwd = String.valueOf(password.getText());
-//                if (TextUtils.isEmpty(user)) {
-//                    Toast.makeText(view.getContext(), "Enter user/email", Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-//                if (TextUtils.isEmpty(pwd)) {
-//                    Toast.makeText(view.getContext(), "Enter user/email", Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-//
-//                AppState.user.setUsername(user);
-//                AppState.user.setPassword(pwd);
-//
-//                mAuth.createUserWithEmailAndPassword(user, pwd)
-//                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-//                            @Override
-//                            public void onComplete(@NonNull Task<AuthResult> task) {
-//                                if (task.isSuccessful()) {
-//                                    Toast.makeText(view.getContext(), "Account created.",
-//                                            Toast.LENGTH_SHORT).show();
-//                                } else {
-//                                    // If sign in fails, display a message to the user.
-//                                    Toast.makeText(view.getContext(), "Authentication failed.",
-//                                            Toast.LENGTH_SHORT).show();
-//                                }
-//                            }
-//                        });
-//            }
-//        });
-//        update.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                String username,pwd;
-//                username = String.valueOf(email.getText());
-//                pwd = String.valueOf(password.getText());
-//                if (TextUtils.isEmpty(username) && TextUtils.isEmpty(pwd)) {
-//                    Toast.makeText(view.getContext(), "Enter new user/pwd", Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-//                if (!TextUtils.isEmpty(username)) {
-//                    FirebaseUser currentUser = mAuth.getCurrentUser();
-//                    if (currentUser != null) {
-//                        currentUser.verifyBeforeUpdateEmail(username)
-//                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-//                                    @Override
-//                                    public void onComplete(@NonNull Task<Void> task) {
-//                                        if (task.isSuccessful()) {
-//                                            Toast.makeText(view.getContext(), "Email updated.",
-//                                                    Toast.LENGTH_SHORT).show();
-//                                        } else {
-//                                            // If sign in fails, display a message to the user.
-//                                            Toast.makeText(view.getContext(), "Failed to update.",
-//                                                    Toast.LENGTH_SHORT).show();
-//                                        }
-//                                    }
-//                                });
-//                    }
-//                } if (!TextUtils.isEmpty(pwd)) {
-//                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-//
-//                    user.updatePassword(pwd)
-//                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-//                                @Override
-//                                public void onComplete(@NonNull Task<Void> task) {
-//                                    if (task.isSuccessful()) {
-//                                        Toast.makeText(view.getContext(), "Password updated.",
-//                                                Toast.LENGTH_SHORT).show();
-//                                    }
-//                                }
-//                            });
-//                }
-//            }
-//        });
 
         email.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
