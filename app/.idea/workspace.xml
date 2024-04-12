@@ -5,10 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a2247fcc-979c-4a5d-bd2e-8d34db463029" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/spotifywrapped/Auth/Delete.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/spotifywrapped/Auth/Delete.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/spotifywrapped/DeleteAccount.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/spotifywrapped/DeleteAccount.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/res/layout/delete_account.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/layout/delete_account.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/spotifywrapped/EditAccount.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/spotifywrapped/EditAccount.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/layout/edit_account.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/layout/edit_account.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

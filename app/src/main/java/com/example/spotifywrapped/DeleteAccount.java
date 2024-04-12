@@ -7,12 +7,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.spotifywrapped.databinding.DeleteAccountBinding;
 
 import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -35,14 +37,18 @@ public class DeleteAccount extends Fragment {
     private void deleteAccountForever() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        user.delete()
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull com.google.android.gms.tasks.Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Log.d("DeleteAccount", "User account deleted.");
-                        }
+        if (user != null) {
+            user.delete()
+            .addOnCompleteListener(
+                (@NonNull Task<Void> task) -> {
+                    if (task.isSuccessful()) {
+//                        Log.d(TAG, "User account deleted.");
                     }
-                });
+                }
+            );
+        }
+
+        NavHostFragment.findNavController(this).navigate(R.id.login);
     }
+
 }
