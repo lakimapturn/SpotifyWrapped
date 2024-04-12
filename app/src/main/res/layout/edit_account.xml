@@ -20,6 +20,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout2"
         android:layout_width="409dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
@@ -36,8 +37,10 @@
         android:id="@+id/updateAccountBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="124dp"
+        android:layout_marginTop="76dp"
         android:text="Update Login Info"
-        tools:layout_editor_absoluteX="124dp"
-        tools:layout_editor_absoluteY="284dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -49,6 +49,9 @@
         <action
             android:id="@+id/action_accountInfo2_to_editAccount"
             app:destination="@id/editAccount" />
+        <action
+            android:id="@+id/action_accountInfo2_to_pastWrapped"
+            app:destination="@id/pastWrapped" />
     </fragment>
     <fragment
         android:id="@+id/deleteAccount2"
@@ -60,6 +63,11 @@
         android:name="com.example.spotifywrapped.EditAccount"
         android:label="EditAccount"
         tools:layout="@layout/edit_account"/>
+    <fragment
+        android:id="@+id/pastWrapped"
+        android:name="com.example.spotifywrapped.PastWrapped"
+        android:label="PastWrapped"
+        tools:layout="@layout/past_wrapped"/>
 
 
 </navigation>
