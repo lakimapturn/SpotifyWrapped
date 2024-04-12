@@ -11,6 +11,9 @@ public class User {
     private SpotifyWrapped spotifyWrapped;
     private ArrayList<User> following;
 
+    public User() {
+    }
+
     public User(String id, String username, String password, String spotifyToken, SpotifyWrapped spotifyWrapped, ArrayList<User> following) {
         this.id = id;
         this.username = username;

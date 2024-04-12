@@ -14,7 +14,7 @@ import okhttp3.OkHttpClient;
 
 public final class Helper {
     public static final String REDIRECT_URI = "spotifywrapped://auth";
-    public static final String CLIENT_ID = "c04b185b0ff6465e89a82be5d5c860ac";
+    public static final String CLIENT_ID = "3fb1efe2e6a04635a160cf18b3bc584b";
     public static final int AUTH_TOKEN_REQUEST_CODE = 0;
     private final OkHttpClient mOkHttpClient = new OkHttpClient();
 
@@ -29,6 +29,8 @@ public final class Helper {
         } catch (Exception e) {
             Log.d("Top Artists Error", e.toString());
         }
+
+        System.out.println(Arrays.asList(topSongs));
 
         return topSongs;
     }

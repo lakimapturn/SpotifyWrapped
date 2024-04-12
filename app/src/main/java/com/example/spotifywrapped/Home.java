@@ -14,6 +14,9 @@ import android.widget.Toast;
 
 import com.example.spotifywrapped.Helper.Helper;
 import com.example.spotifywrapped.Helper.TokenClass;
+import com.example.spotifywrapped.Models.SpotifyWrapped;
+import com.example.spotifywrapped.Models.User;
+import com.example.spotifywrapped.State.AppState;
 import com.example.spotifywrapped.databinding.HomeBinding;
 
 import org.json.JSONArray;
@@ -56,6 +59,9 @@ public class Home extends Fragment {
             return;
         }
 
+        AppState.user.setSpotifyToken(TokenClass.getInstance().getFireAccessToken());
+        AppState.user.setSpotifyWrapped(new SpotifyWrapped());
+
         final Request tracksRequest = new Request.Builder()
                 .url("https://api.spotify.com/v1/me/top/tracks?time_range=long_term&limit=5")
                 .addHeader("Authorization", "Bearer " + TokenClass.getInstance().getFireAccessToken())
@@ -91,12 +97,10 @@ public class Home extends Fragment {
                     final JSONObject jsonObject = new JSONObject(response.body().string());
                     JSONArray items = (JSONArray) jsonObject.get("items");
 
-                    String[] result = new String[5];
-
                     if (type == ProcessType.artists) {
-                        result = Helper.parseTopArtists(items);
+                        AppState.user.getSpotifyWrapped().setTopArtists(Helper.parseTopArtists(items));
                     } else if (type == ProcessType.tracks) {
-                        result = Helper.parseTopAlbums(items);
+                        AppState.user.getSpotifyWrapped().setTopSongs(Helper.parseTopAlbums(items));
                     }
 //                    HomeDirections.ActionHomeToSummary action = HomeDirections.actionHomeToSummary(jsonObject.toString());
 

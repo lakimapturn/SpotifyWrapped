@@ -14,6 +14,9 @@ public class SpotifyWrapped {
     private boolean isPublic;
     private ArrayList<Comment> comments;
 
+    public SpotifyWrapped() {
+    }
+
     public SpotifyWrapped(String[] topArtists, String[] topSongs, int minutesListened, String topGenre, boolean isPublic, ArrayList<Comment> comments) {
         this.topArtists = topArtists;
         this.topSongs = topSongs;

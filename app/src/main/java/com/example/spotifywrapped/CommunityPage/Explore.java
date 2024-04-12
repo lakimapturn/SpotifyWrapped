@@ -37,7 +37,5 @@ public class Explore extends Fragment {
         ListView listView = view.findViewById(R.id.list_view);
         listAdapter = new ExplorePageListAdapter(view.getContext(), new ArrayList<User>());
         listView.setAdapter(listAdapter);
-
-
     }
 }

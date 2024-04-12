@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import com.example.spotifywrapped.Models.SpotifyWrapped;
 import com.example.spotifywrapped.Models.User;
 import com.example.spotifywrapped.R;
+import com.example.spotifywrapped.State.AppState;
 
 import java.util.ArrayList;
 
@@ -25,6 +26,7 @@ public class ExplorePageListAdapter extends ArrayAdapter<User> {
     public ExplorePageListAdapter(@NonNull Context context, ArrayList<User> list) {
         super(context, R.layout.community_list_item, list);
         // test data
+        list.add(AppState.user);
         list.add(new User("", "example", "", "",
                 new SpotifyWrapped(new String[]{"Weekend", "Someone else", "Jesoos"}, new String[]{"Someone", "Lol", "kys"}, 0, "10",
                         false, new ArrayList<>()), new ArrayList<>()));
