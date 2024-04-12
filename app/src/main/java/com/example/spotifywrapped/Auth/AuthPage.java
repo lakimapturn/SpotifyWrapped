@@ -26,7 +26,7 @@ public class AuthPage extends AppCompatActivity {
     EditText email, password;
     ImageButton eyeToggle;
 
-    android.widget.Button login, register;
+    android.widget.Button login, register, dummyregister, update;
     String pass, e;
     boolean show = true;
 
@@ -46,6 +46,8 @@ public class AuthPage extends AppCompatActivity {
         eyeToggle = findViewById(R.id.password_toggle);
         login = findViewById(R.id.login_btn);
         register = findViewById(R.id.register);
+        dummyregister = findViewById(R.id.dummy_register);
+        update = findViewById(R.id.update_info_btn);
 
 
         eyeToggle.setOnClickListener(new View.OnClickListener() {
@@ -67,7 +69,7 @@ public class AuthPage extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(AuthPage.this, "Login Successful", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AuthPage.this, "Login is Clicked", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -75,6 +77,20 @@ public class AuthPage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(AuthPage.this, "Register Is Clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        dummyregister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(AuthPage.this, "Dummy Register Is Clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(AuthPage.this, "Dummy Register Is Clicked", Toast.LENGTH_SHORT).show();
             }
         });
 
