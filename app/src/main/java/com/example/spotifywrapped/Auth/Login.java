@@ -67,7 +67,7 @@ public class Login extends Fragment {
 
     EditText email, password;
     ImageButton eyeToggle;
-    android.widget.Button login, register, dummyregister, update;
+    android.widget.Button login, register, update;
     String pass, e;
     boolean show = true;
 
@@ -92,11 +92,37 @@ public class Login extends Fragment {
         eyeToggle = view.findViewById(R.id.password_toggle);
         login = view.findViewById(R.id.login_btn);
         register = view.findViewById(R.id.register);
-        dummyregister = view.findViewById(R.id.dummy_register);
         update = view.findViewById(R.id.update_info_btn);
 
         login.setOnClickListener(v -> getToken());
-        register.setOnClickListener(v -> getToken());
+        register.setOnClickListener(v -> {
+            String user = String.valueOf(email.getText());
+            String pwd = String.valueOf(password.getText());
+
+            if (TextUtils.isEmpty(user)) {
+                Toast.makeText(v.getContext(), "Enter user/email", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (TextUtils.isEmpty(pwd)) {
+                Toast.makeText(v.getContext(), "Enter password", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            AppState.user.setUsername(user);
+            AppState.user.setPassword(pwd);
+
+            mAuth.createUserWithEmailAndPassword(user, pwd)
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(v.getContext(), "Account created.", Toast.LENGTH_SHORT).show();
+
+                            getToken();
+                        } else {
+                            Toast.makeText(v.getContext(), "Authentication failed.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        });
+
 
         eyeToggle.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -150,40 +176,40 @@ public class Login extends Fragment {
             }
         });
 
-        dummyregister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String user, pwd;
-                user = String.valueOf(email.getText());
-                pwd = String.valueOf(password.getText());
-                if (TextUtils.isEmpty(user)) {
-                    Toast.makeText(view.getContext(), "Enter user/email", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if (TextUtils.isEmpty(pwd)) {
-                    Toast.makeText(view.getContext(), "Enter user/email", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                AppState.user.setUsername(user);
-                AppState.user.setPassword(pwd);
-
-                mAuth.createUserWithEmailAndPassword(user, pwd)
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    Toast.makeText(view.getContext(), "Account created.",
-                                            Toast.LENGTH_SHORT).show();
-                                } else {
-                                    // If sign in fails, display a message to the user.
-                                    Toast.makeText(view.getContext(), "Authentication failed.",
-                                            Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
-            }
-        });
+//        dummyregister.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                String user, pwd;
+//                user = String.valueOf(email.getText());
+//                pwd = String.valueOf(password.getText());
+//                if (TextUtils.isEmpty(user)) {
+//                    Toast.makeText(view.getContext(), "Enter user/email", Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
+//                if (TextUtils.isEmpty(pwd)) {
+//                    Toast.makeText(view.getContext(), "Enter user/email", Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
+//
+//                AppState.user.setUsername(user);
+//                AppState.user.setPassword(pwd);
+//
+//                mAuth.createUserWithEmailAndPassword(user, pwd)
+//                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+//                            @Override
+//                            public void onComplete(@NonNull Task<AuthResult> task) {
+//                                if (task.isSuccessful()) {
+//                                    Toast.makeText(view.getContext(), "Account created.",
+//                                            Toast.LENGTH_SHORT).show();
+//                                } else {
+//                                    // If sign in fails, display a message to the user.
+//                                    Toast.makeText(view.getContext(), "Authentication failed.",
+//                                            Toast.LENGTH_SHORT).show();
+//                                }
+//                            }
+//                        });
+//            }
+//        });
 //        update.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
