@@ -44,6 +44,9 @@ public class ExplorePageListAdapter extends ArrayAdapter<User> {
         ListView topArtistsList = view.findViewById(R.id.top_artists_list);
         ListView topSongsList = view.findViewById(R.id.top_songs_list);
 
+        TextView user = view.findViewById(R.id.username);
+        user.setText(item.getUsername());
+
         ArrayAdapter<String> topArtistsAdapter = new ArrayAdapter<>(this.getContext(), android.R.layout.simple_list_item_1, spotifyWrapped.getTopArtists());
         topArtistsList.setAdapter(topArtistsAdapter);
         ArrayAdapter<String> topSongsAdapter = new ArrayAdapter<>(this.getContext(), android.R.layout.simple_list_item_1, spotifyWrapped.getTopSongs());
