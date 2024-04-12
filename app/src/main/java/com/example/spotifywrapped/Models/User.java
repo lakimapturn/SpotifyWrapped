@@ -70,4 +70,16 @@ public class User {
     public void setFollowing(ArrayList<User> following) {
         this.following = following;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id='" + id + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", spotifyToken='" + spotifyToken + '\'' +
+                ", spotifyWrapped=" + spotifyWrapped +
+                ", following=" + following +
+                '}';
+    }
 }

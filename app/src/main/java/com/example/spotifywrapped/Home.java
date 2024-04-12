@@ -96,12 +96,14 @@ public class Home extends Fragment {
                 try {
                     final JSONObject jsonObject = new JSONObject(response.body().string());
                     JSONArray items = (JSONArray) jsonObject.get("items");
+                    System.out.println("here!");
 
                     if (type == ProcessType.artists) {
                         AppState.user.getSpotifyWrapped().setTopArtists(Helper.parseTopArtists(items));
                     } else if (type == ProcessType.tracks) {
                         AppState.user.getSpotifyWrapped().setTopSongs(Helper.parseTopSongs(items));
                     }
+
 //                    HomeDirections.ActionHomeToSummary action = HomeDirections.actionHomeToSummary(jsonObject.toString());
 
                     getActivity().runOnUiThread(() -> {

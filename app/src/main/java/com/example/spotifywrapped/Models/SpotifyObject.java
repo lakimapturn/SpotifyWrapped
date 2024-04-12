@@ -10,6 +10,8 @@ public class SpotifyObject {
     private String user;
 
     public SpotifyObject() {
+        topArtists = new ArrayList<>();
+        topSongs = new ArrayList<>();
     }
 
     public ArrayList<String> getTopArtists() {
