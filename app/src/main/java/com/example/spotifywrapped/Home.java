@@ -96,7 +96,7 @@ public class Home extends Fragment {
                     if (type == ProcessType.artists) {
                         result = Helper.parseTopArtists(items);
                     } else if (type == ProcessType.tracks) {
-                        result = Helper.parseTopAlbums(items);
+                        result = Helper.parseTopSongs(items);
                     }
 //                    HomeDirections.ActionHomeToSummary action = HomeDirections.actionHomeToSummary(jsonObject.toString());
 
