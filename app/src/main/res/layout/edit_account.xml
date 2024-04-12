@@ -32,4 +32,12 @@
             android:hint="Password" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <Button
+        android:id="@+id/updateAccountBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Update Login Info"
+        tools:layout_editor_absoluteX="124dp"
+        tools:layout_editor_absoluteY="284dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

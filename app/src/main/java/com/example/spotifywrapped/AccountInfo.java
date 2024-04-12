@@ -24,7 +24,7 @@ public class AccountInfo extends Fragment {
     }
 
     private void onArrow2Clicked() {
-        NavHostFragment.findNavController(this).navigate(R.id.deleteAccount2);
+        NavHostFragment.findNavController(this).navigate(R.id.editAccount);
     }
     private void onArrow3Clicked() {
         NavHostFragment.findNavController(this).navigate(R.id.deleteAccount2);
