@@ -4,20 +4,27 @@ import android.util.Log;
 
 import com.example.spotifywrapped.Models.User;
 import com.example.spotifywrapped.State.AppState;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+
 import okhttp3.OkHttpClient;
 
 public final class Helper {
-    private static FirebaseFirestore db = FirebaseFirestore.getInstance();  // Changed from FirebaseDatabase to FirebaseFirestore
+    private static FirebaseDatabase db = FirebaseDatabase.getInstance();
+    private static DatabaseReference rootRef = db.getReference();
     public static final String REDIRECT_URI = "spotifywrapped://auth";
-    public static final String CLIENT_ID = "c04b185b0ff6465e89a82be5d5c860ac";
+    public static final String CLIENT_ID = "3fb1efe2e6a04635a160cf18b3bc584b";
     public static final int AUTH_TOKEN_REQUEST_CODE = 0;
     private final OkHttpClient mOkHttpClient = new OkHttpClient();
 
@@ -32,6 +39,8 @@ public final class Helper {
         } catch (Exception e) {
             Log.d("Top Artists Error", e.toString());
         }
+
+        System.out.println(Arrays.asList(topSongs));
 
         return topSongs;
     }
@@ -54,16 +63,20 @@ public final class Helper {
         return topSongs;
     }
 
-    public static void writeToFirebase(String userId, String[] topArtists, String[] topSongs) {
+    public static void writeToFirebase(String userId) {
         // Create a HashMap to store artist and song data
         HashMap<String, Object> wrappedData = new HashMap<>();
-        wrappedData.put("topArtists", Arrays.asList(topArtists));
-        wrappedData.put("topSongs", Arrays.asList(topSongs));
+        wrappedData.put("topArtists", Arrays.asList(AppState.user.getSpotifyWrapped().getTopArtists()));
+        wrappedData.put("topSongs", Arrays.asList(AppState.user.getSpotifyWrapped().getTopSongs()));
         wrappedData.put("isPublic", AppState.user.getSpotifyWrapped().isPublic());
 
-        // Add data to Firestore with user ID as document ID
-        db.collection("users").document(userId)
-                .set(wrappedData)
+        DatabaseReference spotifyWrappedRef = rootRef.child("spotifyWrapped");
+
+        String child = FirebaseAuth.getInstance().getUid() == null ? "eg" :
+                FirebaseAuth.getInstance().getUid();
+
+        spotifyWrappedRef.child(child)
+                .setValue(wrappedData)
                 .addOnSuccessListener(unused -> Log.d("Realtime", "Data written successfully!"))
                 .addOnFailureListener(e -> Log.w("Realtime", "Error writing data: ", e));
     }

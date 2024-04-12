@@ -32,8 +32,10 @@ import androidx.navigation.NavOptions;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.spotifywrapped.Helper.DownloadCallback;
+import com.example.spotifywrapped.Models.User;
 import com.example.spotifywrapped.R;
 import com.example.spotifywrapped.Helper.TokenClass;
+import com.example.spotifywrapped.State.AppState;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -74,6 +76,8 @@ public class Login extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = LoginBinding.inflate(inflater, container, false);
+
+        AppState.user = new User();
 
         return binding.getRoot();
     }
@@ -120,9 +124,11 @@ public class Login extends Fragment {
                     return;
                 }
                 if (TextUtils.isEmpty(pwd)) {
-                    Toast.makeText(view.getContext(), "Enter user/email", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(view.getContext(), "Enter password", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                AppState.user.setUsername(user);
+                AppState.user.setPassword(pwd);
                 mAuth.signInWithEmailAndPassword(user, pwd)
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
@@ -158,6 +164,10 @@ public class Login extends Fragment {
                     Toast.makeText(view.getContext(), "Enter user/email", Toast.LENGTH_SHORT).show();
                     return;
                 }
+
+                AppState.user.setUsername(user);
+                AppState.user.setPassword(pwd);
+
                 mAuth.createUserWithEmailAndPassword(user, pwd)
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
