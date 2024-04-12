@@ -5,35 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a2247fcc-979c-4a5d-bd2e-8d34db463029" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/spotifywrapped/Auth/Delete.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/spotifywrapped/Auth/Update.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/spotifywrapped/Firebase/FirebaseFunc.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/spotifywrapped/Models/SpotifyObject.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/spotifywrapped/UserPage/UserPage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/layout/update.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/layout/user_page.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.github/workflows/AndroidBuild.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../.github/workflows/AndroidBuild.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/spotifywrapped/Auth/Login.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/spotifywrapped/Auth/Login.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/spotifywrapped/CommunityPage/Explore.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/spotifywrapped/CommunityPage/Explore.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/spotifywrapped/Components/ExplorePageListAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/spotifywrapped/Components/ExplorePageListAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/spotifywrapped/Components/SpotifyWrappedView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/spotifywrapped/Components/SpotifyWrappedView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/spotifywrapped/Home.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/spotifywrapped/Home.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/spotifywrapped/LoginPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/spotifywrapped/Auth/AuthPage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/spotifywrapped/Models/SpotifyWrapped.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/spotifywrapped/Models/SpotifyWrapped.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/spotifywrapped/Models/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/spotifywrapped/Models/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/res/layout/community_list_item.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/layout/community_list_item.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/res/layout/community_page.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/layout/community_page.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/res/layout/home.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/layout/home.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/res/layout/login.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/layout/login.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/res/layout/login_screen.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/layout/login_screen.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/res/layout/spotify_wrapped_list_item.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/layout/spotify_wrapped_list_item.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/res/navigation/nav_graph.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/navigation/nav_graph.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/values/strings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../gradlew" beforeDir="false" afterPath="$PROJECT_DIR$/../gradlew" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/spotifywrapped/Auth/Delete.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/spotifywrapped/Auth/Delete.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/spotifywrapped/DeleteAccount.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/spotifywrapped/DeleteAccount.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/layout/delete_account.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/layout/delete_account.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
