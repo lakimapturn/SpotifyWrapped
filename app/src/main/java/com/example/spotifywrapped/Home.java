@@ -76,7 +76,7 @@ public class Home extends Fragment {
         NavHostFragment.findNavController(this).navigate(R.id.accountInfo);
     }
 
-    public void processData(Request request) {
+    public void processData(Request request, ProcessType type) {
         mOkHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
