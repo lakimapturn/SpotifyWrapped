@@ -30,6 +30,9 @@
         <action
             android:id="@+id/action_home_to_userPage"
             app:destination="@id/userPage" />
+        <action
+            android:id="@+id/action_home_to_accountInfo"
+            app:destination="@id/accountInfo" />
     </fragment>
     <fragment
         android:id="@+id/summary"
@@ -48,5 +51,35 @@
         android:id="@+id/userPage"
         android:name="com.example.spotifywrapped.UserPage.UserPage"
         android:label="UserPage" />
+    <fragment
+        android:id="@+id/accountInfo"
+        android:name="com.example.spotifywrapped.AccountInfo"
+        android:label="AccountInfo"
+        tools:layout="@layout/user_account_info">
+        <action
+            android:id="@+id/action_accountInfo_to_pastWrapped2"
+            app:destination="@id/pastWrapped" />
+        <action
+            android:id="@+id/action_accountInfo_to_editAccount"
+            app:destination="@id/editAccount" />
+        <action
+            android:id="@+id/action_accountInfo_to_deleteAccount2"
+            app:destination="@id/deleteAccount2" />
+    </fragment>
+    <fragment
+        android:id="@+id/pastWrapped"
+        android:name="com.example.spotifywrapped.PastWrapped"
+        android:label="PastWrapped"
+        tools:layout="@layout/past_wrapped"/>
+    <fragment
+        android:id="@+id/editAccount"
+        android:name="com.example.spotifywrapped.EditAccount"
+        android:label="EditAccount"
+        tools:layout="@layout/edit_account"/>
+    <fragment
+        android:id="@+id/deleteAccount2"
+        android:name="com.example.spotifywrapped.DeleteAccount"
+        android:label="DeleteAccount"
+        tools:layout="@layout/delete_account"/>
 
 </navigation>
