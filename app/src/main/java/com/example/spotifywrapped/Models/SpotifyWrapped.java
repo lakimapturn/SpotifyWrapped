@@ -1,23 +1,25 @@
 package com.example.spotifywrapped.Models;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class SpotifyWrapped {
 
     /**
      * Are we going to have multiple years? If yes, we need to think about adding a year field and making the SpotifyWrapped field in user an arrayList
      */
-    private String[] topArtists;
-    private String[] topSongs;
+    private ArrayList<String> topArtists;
+    private ArrayList<String> topSongs;
+    private boolean isPublic;
+
     private int minutesListened;
     private String topGenre;
-    private boolean isPublic;
     private ArrayList<Comment> comments;
 
     public SpotifyWrapped() {
     }
 
-    public SpotifyWrapped(String[] topArtists, String[] topSongs, int minutesListened, String topGenre, boolean isPublic, ArrayList<Comment> comments) {
+    public SpotifyWrapped(ArrayList<String> topArtists, ArrayList<String> topSongs, int minutesListened, String topGenre, boolean isPublic, ArrayList<Comment> comments) {
         this.topArtists = topArtists;
         this.topSongs = topSongs;
         this.minutesListened = minutesListened;
@@ -26,19 +28,19 @@ public class SpotifyWrapped {
         this.comments = comments;
     }
 
-    public String[] getTopArtists() {
+    public ArrayList<String> getTopArtists() {
         return topArtists;
     }
 
-    public void setTopArtists(String[] topArtists) {
+    public void setTopArtists(ArrayList<String> topArtists) {
         this.topArtists = topArtists;
     }
 
-    public String[] getTopSongs() {
+    public ArrayList<String> getTopSongs() {
         return topSongs;
     }
 
-    public void setTopSongs(String[] topSongs) {
+    public void setTopSongs(ArrayList<String> topSongs) {
         this.topSongs = topSongs;
     }
 
@@ -74,10 +76,15 @@ public class SpotifyWrapped {
         this.comments = comments;
     }
 
-    //    public ArrayList<Comment> getComments() {
-//
-//    }
-
-
-    // TODO: are we going to allow a spotify wrapped to be mutable?
+    @Override
+    public String toString() {
+        return "SpotifyWrapped{" +
+                "topArtists=" + topArtists +
+                ", topSongs=" + topSongs +
+                ", minutesListened=" + minutesListened +
+                ", topGenre='" + topGenre + '\'' +
+                ", isPublic=" + isPublic +
+                ", comments=" + comments +
+                '}';
+    }
 }
