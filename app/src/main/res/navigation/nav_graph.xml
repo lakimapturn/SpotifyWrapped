@@ -50,7 +50,8 @@
     <fragment
         android:id="@+id/userPage"
         android:name="com.example.spotifywrapped.UserPage.UserPage"
-        android:label="UserPage" />
+        android:label="UserPage"
+        tools:layout="@layout/user_page"/>
     <fragment
         android:id="@+id/accountInfo"
         android:name="com.example.spotifywrapped.AccountInfo"

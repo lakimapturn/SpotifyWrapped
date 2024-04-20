@@ -41,7 +41,7 @@ public class AccountInfo extends Fragment {
 
 
     private void onArrow1Clicked() {
-        NavHostFragment.findNavController(this).navigate(R.id.pastWrapped);
+        NavHostFragment.findNavController(this).navigate(R.id.userPage);
     }
     private void onArrow2Clicked() {
         NavHostFragment.findNavController(this).navigate(R.id.editAccount);
