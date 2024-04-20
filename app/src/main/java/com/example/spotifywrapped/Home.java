@@ -24,6 +24,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -96,12 +97,14 @@ public class Home extends Fragment {
                 try {
                     final JSONObject jsonObject = new JSONObject(response.body().string());
                     JSONArray items = (JSONArray) jsonObject.get("items");
+                    System.out.println("here!");
 
                     if (type == ProcessType.artists) {
                         AppState.user.getSpotifyWrapped().setTopArtists(Helper.parseTopArtists(items));
                     } else if (type == ProcessType.tracks) {
                         AppState.user.getSpotifyWrapped().setTopSongs(Helper.parseTopSongs(items));
                     }
+
 //                    HomeDirections.ActionHomeToSummary action = HomeDirections.actionHomeToSummary(jsonObject.toString());
 
                     getActivity().runOnUiThread(() -> {
@@ -114,6 +117,8 @@ public class Home extends Fragment {
                 } catch (JSONException e) {
                     System.out.println(e);
                     Log.d("JSON", "Failed to parse data: " + e);
+                    AppState.user.getSpotifyWrapped().setTopSongs(new ArrayList<>());
+                    AppState.user.getSpotifyWrapped().setTopArtists(new ArrayList<>());
                 }
             }
         });

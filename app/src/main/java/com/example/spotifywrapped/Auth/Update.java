@@ -65,7 +65,7 @@ public class Update extends Fragment {
 
     EditText email, password;
     ImageButton eyeToggle;
-    android.widget.Button login, register, dummyregister, update;
+    android.widget.Button login, register, update;
     String pass, e;
     boolean show = true;
 
