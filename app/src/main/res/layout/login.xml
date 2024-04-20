@@ -6,6 +6,7 @@
     android:id="@+id/login_page"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/primarydark"
     tools:context=".MainActivity">
 
@@ -50,7 +51,7 @@
         app:layout_constraintTop_toBottomOf="@+id/mail_edit_text" />
 
 
-    <RelativeLayout
+    <FrameLayout
         android:id="@+id/password_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -58,8 +59,8 @@
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="214dp">
 
+    </FrameLayout>
 
-    </RelativeLayout>
 
     <android.widget.Button
         android:id="@+id/login_btn"
@@ -76,7 +77,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password_edit_text">
 
-    </android.widget.Button>
+    <TextView  android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="15dp"  android:text="or"
+        android:textColor="@color/lightGray"  android:textSize="14sp" />
 
     <android.widget.Button
         android:id="@+id/register"
