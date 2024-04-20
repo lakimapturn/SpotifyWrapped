@@ -65,12 +65,10 @@
         <action
             android:id="@+id/action_accountInfo_to_deleteAccount2"
             app:destination="@id/deleteAccount2" />
+        <action
+            android:id="@+id/action_accountInfo_to_userPage"
+            app:destination="@id/userPage" />
     </fragment>
-    <fragment
-        android:id="@+id/pastWrapped"
-        android:name="com.example.spotifywrapped.PastWrapped"
-        android:label="PastWrapped"
-        tools:layout="@layout/past_wrapped"/>
     <fragment
         android:id="@+id/editAccount"
         android:name="com.example.spotifywrapped.EditAccount"
