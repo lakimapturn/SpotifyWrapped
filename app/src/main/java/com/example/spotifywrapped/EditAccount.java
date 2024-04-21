@@ -90,6 +90,7 @@ public class EditAccount extends Fragment {
         if (!TextUtils.isEmpty(username)) {
             FirebaseUser currentUser = mAuth.getCurrentUser();
             if (currentUser != null) {
+
                 currentUser.verifyBeforeUpdateEmail(username)
                     .addOnCompleteListener(
                         (@NonNull Task<Void> task) -> {
@@ -107,7 +108,8 @@ public class EditAccount extends Fragment {
             if (TextUtils.isEmpty(pwd)) {
                 NavHostFragment.findNavController(this).navigate(R.id.accountInfo);
             }
-        } if (!TextUtils.isEmpty(pwd)) {
+        }
+        if (!TextUtils.isEmpty(pwd)) {
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
             if (user != null) {

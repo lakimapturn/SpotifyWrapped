@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class SpotifyObject {
     private ArrayList<String> topArtists;
     private ArrayList<String> topSongs;
-    private boolean isPublic;
+    private boolean publicity;
 
     private String user;
 
@@ -30,12 +30,12 @@ public class SpotifyObject {
         this.topSongs = topSongs;
     }
 
-    public boolean getIsPublic() {
-        return isPublic;
+    public boolean getPublicity() {
+        return publicity;
     }
 
-    public void setIsPublic(boolean isPublic) {
-        this.isPublic = isPublic;
+    public void setPublicity(boolean publicity) {
+        this.publicity = publicity;
     }
 
     public String getUser() {
@@ -49,7 +49,7 @@ public class SpotifyObject {
     public SpotifyObject(ArrayList<String> topArtists, ArrayList<String> topSongs, boolean isPublic, String user) {
         this.topArtists = topArtists;
         this.topSongs = topSongs;
-        this.isPublic = isPublic;
+        this.publicity = isPublic;
         this.user = user;
     }
 }

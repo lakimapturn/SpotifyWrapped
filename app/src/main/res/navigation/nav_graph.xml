@@ -71,14 +71,19 @@
             app:destination="@id/userPage" />
     </fragment>
     <fragment
+        android:id="@+id/pastWrapped"
+        android:name="com.example.spotifywrapped.PastWrapped"
+        android:label="PastWrapped"
+        tools:layout="@layout/past_wrapped" />
+    <fragment
         android:id="@+id/editAccount"
         android:name="com.example.spotifywrapped.EditAccount"
         android:label="EditAccount"
-        tools:layout="@layout/edit_account"/>
+        tools:layout="@layout/edit_account" />
     <fragment
         android:id="@+id/deleteAccount2"
         android:name="com.example.spotifywrapped.DeleteAccount"
         android:label="DeleteAccount"
-        tools:layout="@layout/delete_account"/>
+        tools:layout="@layout/delete_account" />
 
 </navigation>

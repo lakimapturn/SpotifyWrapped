@@ -1,55 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/black"
     tools:context=".Home">
 
-    <TextView
-        android:id="@+id/homeId"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="172dp"
-        android:text="Welcome!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.853" />
-
-    <LinearLayout
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:background="@color/black"
+        android:outlineAmbientShadowColor="@color/black"
+        app:tabIndicatorColor="@color/white"
+        app:tabSelectedTextColor="@color/white"
+        app:tabTextColor="@color/darkGray">
 
-        <Button
-            android:id="@+id/profile_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_margin="8dp"
-            android:layout_weight="1"
-            android:text="Get User Profile" />
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Home" />
 
-        <Button
-            android:id="@+id/explore"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:text="Community Page" />
 
-        <Button
-            android:id="@+id/personal_page"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Personal Page" />
-
-        <Button
-            android:id="@+id/accountBtn"
+        <com.google.android.material.tabs.TabItem
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Account Info" />
-    </LinearLayout>
+            android:layout_height="match_parent"
+            android:text="Account" />
 
+    </com.google.android.material.tabs.TabLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+<!--    <include-->
+<!--        android:id="@+id/homeview"-->
+<!--        layout="@layout/example_view" />-->
+
+</LinearLayout>
