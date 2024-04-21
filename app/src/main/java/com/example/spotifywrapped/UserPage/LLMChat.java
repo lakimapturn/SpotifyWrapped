@@ -1,5 +1,6 @@
 package com.example.spotifywrapped.UserPage;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -42,19 +43,26 @@ public class LLMChat extends Fragment {
         super.onViewCreated(view, savedInstanceState);
     }
 
-    private void callLLMChat(String prompt) {
-        try {
-            String response = com.example.spotifywrapped.LLMChat.gemini(prompt);
+    private class CallLLMChatTask extends AsyncTask<String, Void, String> {
 
-            boolean result = dynamicText.post(new Runnable() {
-                @Override
-                public void run() {
-                    dynamicText.setText(response);
-                }
-            });
-            System.out.println(result);
-        } catch (ExecutionException | InterruptedException e) {
-            Log.e(TAG, "Error calling Gemini", e);
+        @Override
+        protected String doInBackground(String... prompts) {
+            String prompt = prompts[0];
+            try {
+                return com.example.spotifywrapped.LLMChat.gemini(prompt);
+            } catch (ExecutionException | InterruptedException e) {
+                Log.e(TAG, "Error calling Gemini", e);
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String response) {
+            if (response != null) {
+                dynamicText.setText(response);
+            } else {
+                // Handle error case (e.g., display an error message)
+            }
         }
     }
 
@@ -68,7 +76,7 @@ public class LLMChat extends Fragment {
                 ", give me an outfit to wear to a concert. One sentence only.";
 
         dynamicText.setText("Waiting for Gemini response...");
-        callLLMChat(prompt);
+        new CallLLMChatTask().execute(prompt);
     }
 
     private void generateVideoGame() {
@@ -79,7 +87,8 @@ public class LLMChat extends Fragment {
                 ", give me a video game you think I would enjoy. One sentence only.";
 
         dynamicText.setText("Waiting for Gemini response...");
-        callLLMChat(prompt);
+        new CallLLMChatTask().execute(prompt);
+
     }
 
     private void generateMovie() {
@@ -90,7 +99,8 @@ public class LLMChat extends Fragment {
                 ", give me a movie you think I would enjoy. One sentence only.";
 
         dynamicText.setText("Waiting for Gemini response...");
-        callLLMChat(prompt);
+        new CallLLMChatTask().execute(prompt);
+
     }
 
     private void generateVibe() {
@@ -101,6 +111,7 @@ public class LLMChat extends Fragment {
                 ", what vibe do you think I give off. One sentence only.";
 
         dynamicText.setText("Waiting for Gemini response...");
-        callLLMChat(prompt);
+        new CallLLMChatTask().execute(prompt);
+
     }
 }

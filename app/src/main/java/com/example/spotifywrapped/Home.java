@@ -49,13 +49,9 @@ public class Home extends Fragment {
         super.onCreate(savedInstanceState);
         binding = HomeBinding.inflate(inflater, container, false);
         onGetUserProfileClicked();
-//        binding.accountBtn.setOnClickListener(v -> onGetAccountInfoClicked());
-//        binding.explore.setOnClickListener(v ->
-//                NavHostFragment.findNavController(Home.this).
-//                        navigate(HomeDirections.actionHomeToExplore()));
-//        binding.personalPage.setOnClickListener(v ->
-//                NavHostFragment.findNavController(Home.this).
-//                        navigate(HomeDirections.actionHomeToUserPage()));
+
+        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_container, new LLMChat()).commit();
 
         return binding.getRoot();
     }
