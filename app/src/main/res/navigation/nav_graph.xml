@@ -50,7 +50,8 @@
     <fragment
         android:id="@+id/userPage"
         android:name="com.example.spotifywrapped.UserPage.UserPage"
-        android:label="UserPage" />
+        android:label="UserPage"
+        tools:layout="@layout/user_page"/>
     <fragment
         android:id="@+id/accountInfo"
         android:name="com.example.spotifywrapped.AccountInfo"
@@ -65,6 +66,9 @@
         <action
             android:id="@+id/action_accountInfo_to_deleteAccount2"
             app:destination="@id/deleteAccount2" />
+        <action
+            android:id="@+id/action_accountInfo_to_userPage"
+            app:destination="@id/userPage" />
     </fragment>
     <fragment
         android:id="@+id/pastWrapped"
