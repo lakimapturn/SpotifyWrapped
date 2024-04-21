@@ -63,12 +63,15 @@ public class Explore extends Fragment {
 
                     SpotifyObject object = dataSnapshot.getValue(SpotifyObject.class);
 
+                    SpotifyWrapped wrapped = new SpotifyWrapped(object.getTopArtists(), object.getTopSongs(), 0, "", object.getPublicity(), null);
 
-                    SpotifyWrapped wrapped = new SpotifyWrapped(object.getTopArtists(), object.getTopSongs(), 0, "", object.getIsPublic(), null);
+                    User user = new User(dataSnapshot.getKey(), object.getUser(), "", "", wrapped, null);
 
-                    User user = new User(dataSnapshot.getKey(), object.getUser(), "", "",  wrapped, null);
+                    System.out.println(user);
 
-                    AppState.communityList.add(user);
+                    if (object.getPublicity() && !object.getUser().equals(AppState.user.getUsername())) {
+                        AppState.communityList.add(user);
+                    }
                 }
                 listAdapter.notifyDataSetChanged();
             }

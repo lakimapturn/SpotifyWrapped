@@ -10,7 +10,7 @@ public class SpotifyWrapped {
      */
     private ArrayList<String> topArtists;
     private ArrayList<String> topSongs;
-    private boolean isPublic;
+    private boolean publicity;
 
     private int minutesListened;
     private String topGenre;
@@ -24,7 +24,7 @@ public class SpotifyWrapped {
         this.topSongs = topSongs;
         this.minutesListened = minutesListened;
         this.topGenre = topGenre;
-        this.isPublic = isPublic;
+        this.publicity = isPublic;
         this.comments = comments;
     }
 
@@ -61,11 +61,11 @@ public class SpotifyWrapped {
     }
 
     public boolean isPublic() {
-        return isPublic;
+        return publicity;
     }
 
     public void setPublic(boolean aPublic) {
-        isPublic = aPublic;
+        publicity = aPublic;
     }
 
     public ArrayList<Comment> getComments() {
@@ -83,7 +83,7 @@ public class SpotifyWrapped {
                 ", topSongs=" + topSongs +
                 ", minutesListened=" + minutesListened +
                 ", topGenre='" + topGenre + '\'' +
-                ", isPublic=" + isPublic +
+                ", isPublic=" + publicity +
                 ", comments=" + comments +
                 '}';
     }

@@ -1,10 +1,12 @@
 package com.example.spotifywrapped.Components;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -39,18 +41,50 @@ public class ExplorePageListAdapter extends ArrayAdapter<User> {
             view = inflater.inflate(R.layout.community_list_item, parent, false);
         }
 
+        TextView username = view.findViewById(R.id.username);
+        username.setText(item.getUsername());
+
         SpotifyWrapped spotifyWrapped = item.getSpotifyWrapped();
 
-        ListView topArtistsList = view.findViewById(R.id.top_artists_list);
-        ListView topSongsList = view.findViewById(R.id.top_songs_list);
+        ArrayList<String> topSongs = spotifyWrapped.getTopSongs();
+        ArrayList<String> topArtists = spotifyWrapped.getTopArtists();
 
-        TextView user = view.findViewById(R.id.username);
-        user.setText(item.getUsername());
+        LinearLayout songsLayout = view.findViewById(R.id.top_songs_container);
+        LinearLayout artistsLayout = view.findViewById(R.id.top_artists_container);
 
-        ArrayAdapter<String> topArtistsAdapter = new ArrayAdapter<>(this.getContext(), android.R.layout.simple_list_item_1, spotifyWrapped.getTopArtists());
-        topArtistsList.setAdapter(topArtistsAdapter);
-        ArrayAdapter<String> topSongsAdapter = new ArrayAdapter<>(this.getContext(), android.R.layout.simple_list_item_1, spotifyWrapped.getTopSongs());
-        topSongsList.setAdapter(topSongsAdapter);
+        songsLayout.removeAllViews();
+        artistsLayout.removeAllViews();
+
+        for (int i = 0; i < 5; i++) {
+            TextView textView = new TextView(view.getContext());
+            textView.setLayoutParams(new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    1.0f
+            ));
+            textView.setTextColor(Color.WHITE);
+            textView.setPadding(20, 10, 20, 10);
+
+            if (i < topSongs.size()) {
+                textView.setText(String.format("%d) %s", i + 1, topSongs.get(i)));
+            }
+            songsLayout.addView(textView);
+
+            textView = new TextView(view.getContext());
+            textView.setLayoutParams(new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    1.0f
+            ));
+            textView.setTextColor(Color.WHITE);
+            textView.setPadding(20, 10, 20, 10);
+
+
+            if (i < topArtists.size()) {
+                textView.setText(String.format("%d) %s", i + 1, topArtists.get(i)));
+            }
+            artistsLayout.addView(textView);
+        }
 
         return view;
     }

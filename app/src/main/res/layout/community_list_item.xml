@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardBackgroundColor="@color/darkGray">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -10,7 +12,8 @@
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/darkGray">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -25,16 +28,20 @@
                     android:id="@+id/username"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="User" />
+                    android:text="User"
+                    android:textSize="18sp"
+                    android:textColor="@color/white"/>
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
+<!--        <com.google.android.material.divider.MaterialDivider-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="2dp"-->
+<!--            app:dividerColor="@color/white"/>-->
 
         <include
             android:id="@+id/spotify_wrapped_item"
             layout="@layout/spotify_wrapped_list_item" />
-
-        <!--   Comments implementation can go here     -->
 
     </LinearLayout>
 
