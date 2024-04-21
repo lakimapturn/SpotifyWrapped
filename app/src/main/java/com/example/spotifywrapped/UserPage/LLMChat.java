@@ -34,6 +34,7 @@ public class LLMChat extends Fragment {
         LLMChatView.findViewById(R.id.movie_btn).setOnClickListener(l -> generateMovie());
         LLMChatView.findViewById(R.id.vibe_btn).setOnClickListener(l -> generateVibe());
         LLMChatView.findViewById(R.id.video_game_btn).setOnClickListener(l -> generateVideoGame());
+        LLMChatView.findViewById(R.id.recommendation_btn).setOnClickListener(l -> generateRecommendations());
 
         return LLMChatView;
     }
@@ -72,7 +73,7 @@ public class LLMChat extends Fragment {
         String topArtists = AppState.user.getSpotifyWrapped().getTopArtists().toString();
         String topSongs = AppState.user.getSpotifyWrapped().getTopSongs().toString();
 
-        String prompt = "Based on your top artists: " + topArtists + " and top songs: " + topSongs +
+        String prompt = "Based on my top artists: " + topArtists + " and top songs: " + topSongs +
                 ", give me an outfit to wear to a concert. One sentence only.";
 
         dynamicText.setText("Waiting for Gemini response...");
@@ -83,7 +84,7 @@ public class LLMChat extends Fragment {
         String topArtists = AppState.user.getSpotifyWrapped().getTopArtists().toString();
         String topSongs = AppState.user.getSpotifyWrapped().getTopSongs().toString();
 
-        String prompt = "Based on your top artists: " + topArtists + " and top songs: " + topSongs +
+        String prompt = "Based on my top artists: " + topArtists + " and top songs: " + topSongs +
                 ", give me a video game you think I would enjoy. One sentence only.";
 
         dynamicText.setText("Waiting for Gemini response...");
@@ -95,7 +96,7 @@ public class LLMChat extends Fragment {
         String topArtists = AppState.user.getSpotifyWrapped().getTopArtists().toString();
         String topSongs = AppState.user.getSpotifyWrapped().getTopSongs().toString();
 
-        String prompt = "Based on your top artists: " + topArtists + " and top songs: " + topSongs +
+        String prompt = "Based on my top artists: " + topArtists + " and top songs: " + topSongs +
                 ", give me a movie you think I would enjoy. One sentence only.";
 
         dynamicText.setText("Waiting for Gemini response...");
@@ -107,11 +108,22 @@ public class LLMChat extends Fragment {
         String topArtists = AppState.user.getSpotifyWrapped().getTopArtists().toString();
         String topSongs = AppState.user.getSpotifyWrapped().getTopSongs().toString();
 
-        String prompt = "Based on your top artists: " + topArtists + " and top songs: " + topSongs +
+        String prompt = "Based on my top artists: " + topArtists + " and top songs: " + topSongs +
                 ", what vibe do you think I give off. One sentence only.";
 
         dynamicText.setText("Waiting for Gemini response...");
         new CallLLMChatTask().execute(prompt);
 
+    }
+
+    private void generateRecommendations() {
+        String topArtists = AppState.user.getSpotifyWrapped().getTopArtists().toString();
+        String topSongs = AppState.user.getSpotifyWrapped().getTopSongs().toString();
+
+        String prompt = "Based on my top artists: " + topArtists + " and top songs: " + topSongs +
+                ", recommend new artists based on my music taste. One sentence only.";
+
+        dynamicText.setText("Waiting for Gemini response...");
+        new CallLLMChatTask().execute(prompt);
     }
 }
