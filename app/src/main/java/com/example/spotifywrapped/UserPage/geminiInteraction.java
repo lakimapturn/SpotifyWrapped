@@ -63,19 +63,19 @@ public class geminiInteraction extends Activity implements TabLayout.OnTabSelect
         String prompt;
         switch (position) {
             case 0:
-                prompt = "Based on your top artists: " + topArtists + " and top songs: " + topSongs +
+                prompt = "Based on my top artists: " + topArtists + " and top songs: " + topSongs +
                         ", give me an outfit to wear to a concert. One sentence only.";
                 break;
             case 1:
-                prompt = "Based on your top genre: " + AppState.user.getSpotifyWrapped().getTopGenre() +
+                prompt = "Based on my top artists: " + topArtists + " and top songs: " + topSongs +
                         ", give me a movie you think I would enjoy. One sentence only.";
                 break;
             case 2:
-                prompt = "Based on your top genre: " + AppState.user.getSpotifyWrapped().getTopGenre() +
+                prompt = "Based on my top artists: " + topArtists + " and top songs: " + topSongs +
                         ", give me a video game you think I would enjoy. One sentence only.";
                 break;
             default:
-                prompt = "Based on your top genre: " + AppState.user.getSpotifyWrapped().getTopGenre() +
+                prompt = "Based on my top artists: " + topArtists + " and top songs: " + topSongs +
                         ", what vibe do you think I give off. One sentence only.";
         }
 
