@@ -22,6 +22,7 @@ import com.example.spotifywrapped.Helper.TokenClass;
 import com.example.spotifywrapped.Models.SpotifyWrapped;
 import com.example.spotifywrapped.Models.User;
 import com.example.spotifywrapped.State.AppState;
+import com.example.spotifywrapped.UserPage.LLMChat;
 import com.example.spotifywrapped.databinding.HomeBinding;
 import com.google.android.material.tabs.TabLayout;
 
@@ -48,13 +49,9 @@ public class Home extends Fragment {
         super.onCreate(savedInstanceState);
         binding = HomeBinding.inflate(inflater, container, false);
         onGetUserProfileClicked();
-//        binding.accountBtn.setOnClickListener(v -> onGetAccountInfoClicked());
-//        binding.explore.setOnClickListener(v ->
-//                NavHostFragment.findNavController(Home.this).
-//                        navigate(HomeDirections.actionHomeToExplore()));
-//        binding.personalPage.setOnClickListener(v ->
-//                NavHostFragment.findNavController(Home.this).
-//                        navigate(HomeDirections.actionHomeToUserPage()));
+
+        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_container, new LLMChat()).commit();
 
         return binding.getRoot();
     }
@@ -67,26 +64,16 @@ public class Home extends Fragment {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 int position = tab.getPosition();
-//                LayoutInflater inflater = LayoutInflater.from(view.getContext());
-//                ConstraintLayout contentContainer = view.findViewById(R.id.homeview);
-//
-//                contentContainer.removeAllViews();
-
                 Fragment fragment = null;
 
                 switch (position) {
                     case 0:
-//                        View contentView1 = inflater.inflate(R.layout.content_view_1, contentContainer, false);
-//                        contentContainer.addView(contentView1);
+                        fragment = new LLMChat();
                         break;
                     case 1:
-//                        View communityPage = inflater.inflate(R.layout.community_page, contentContainer, false);
-//                        contentContainer.addView(communityPage);
                         fragment = new Explore();
                         break;
                     case 2:
-//                        View userAccountPage = inflater.inflate(R.layout.user_account_info, contentContainer, false);
-//                        contentContainer.addView(userAccountPage);
                         fragment = new AccountInfo();
                         break;
                 }
