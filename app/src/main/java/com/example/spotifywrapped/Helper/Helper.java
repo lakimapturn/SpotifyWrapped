@@ -30,7 +30,7 @@ public final class Helper {
     private static FirebaseDatabase db = FirebaseDatabase.getInstance();
     public static DatabaseReference rootRef = db.getReference();
     public static final String REDIRECT_URI = "spotifywrapped://auth";
-    public static final String CLIENT_ID = "c04b185b0ff6465e89a82be5d5c860ac";
+    public static final String CLIENT_ID = ""; // find client id in github repo secrets
     public static final int AUTH_TOKEN_REQUEST_CODE = 0;
     private final OkHttpClient mOkHttpClient = new OkHttpClient();
 
